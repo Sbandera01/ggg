@@ -6,6 +6,7 @@ import com.bers.domain.entities.Config;
 import com.bers.domain.repositories.ConfigRepository;
 import com.bers.services.mappers.ConfigMapper;
 import com.bers.services.service.serviceImple.ConfigServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,7 +59,7 @@ class ConfigServiceImplTest {
         ConfigResponse result = configService.createConfig(createRequest);
 
         assertNotNull(result);
-        assertEquals("seat.hold.minutes", result.key());
+        Assertions.assertEquals("seat.hold.minutes", result.key());
         verify(configRepository).save(any(Config.class));
         verify(configMapper).toEntity(createRequest);
         verify(configMapper).toResponse(any(Config.class));
@@ -74,7 +75,7 @@ class ConfigServiceImplTest {
                 () -> configService.createConfig(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("already exists"));
+        Assertions.assertTrue(exception.getMessage().contains("already exists"));
         verify(configRepository, never()).save(any());
     }
 
@@ -85,7 +86,7 @@ class ConfigServiceImplTest {
 
         String result = configService.getConfigValue("missing.key", "default");
 
-        assertEquals("default", result);
+        Assertions.assertEquals("default", result);
     }
 
     @Test
@@ -96,7 +97,7 @@ class ConfigServiceImplTest {
 
         Integer result = configService.getConfigValueAsInt("seat.hold.minutes", 0);
 
-        assertEquals(10, result);
+        Assertions.assertEquals(10, result);
     }
 
     @Test
@@ -108,7 +109,7 @@ class ConfigServiceImplTest {
 
         Integer result = configService.getConfigValueAsInt("seat.hold.minutes", 5);
 
-        assertEquals(5, result);
+        Assertions.assertEquals(5, result);
     }
 
     @Test
@@ -119,7 +120,7 @@ class ConfigServiceImplTest {
 
         Double result = configService.getConfigValueAsDouble("test.double", 0.0);
 
-        assertEquals(5.5, result);
+        Assertions.assertEquals(5.5, result);
     }
 
     @Test

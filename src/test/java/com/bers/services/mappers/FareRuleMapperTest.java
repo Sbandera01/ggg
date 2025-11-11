@@ -6,9 +6,8 @@ import com.bers.domain.entities.FareRule;
 import com.bers.domain.entities.Route;
 import com.bers.domain.entities.Stop;
 import com.bers.domain.entities.enums.DynamicPricingStatus;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
@@ -44,10 +43,10 @@ class FareRuleMapperTest {
         FareRule fareRule = fareRuleMapper.toEntity(request);
 
         assertNotNull(fareRule);
-        assertEquals(new BigDecimal("50000"), fareRule.getBasePrice());
-        assertEquals(DynamicPricingStatus.ON, fareRule.getDynamicPricing());
+        Assertions.assertEquals(new BigDecimal("50000"), fareRule.getBasePrice());
+        Assertions.assertEquals(DynamicPricingStatus.ON, fareRule.getDynamicPricing());
         assertNotNull(fareRule.getDiscounts());
-        assertEquals(2, fareRule.getDiscounts().size());
+        Assertions.assertEquals(2, fareRule.getDiscounts().size());
     }
 
     @Test
@@ -73,13 +72,13 @@ class FareRuleMapperTest {
         FareRuleResponse response = fareRuleMapper.toResponse(fareRule);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals(new BigDecimal("45000"), response.basePrice());
-        assertEquals("OFF", response.dynamicPricing());
-        assertEquals(1L, response.routeId());
-        assertEquals(2L, response.fromStopId());
-        assertEquals("Bogotá", response.fromStopName());
-        assertEquals(3L, response.toStopId());
-        assertEquals("Tunja", response.toStopName());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals(new BigDecimal("45000"), response.basePrice());
+        Assertions.assertEquals("OFF", response.dynamicPricing());
+        Assertions.assertEquals(1L, response.routeId());
+        Assertions.assertEquals(2L, response.fromStopId());
+        Assertions.assertEquals("Bogotá", response.fromStopName());
+        Assertions.assertEquals(3L, response.toStopId());
+        Assertions.assertEquals("Tunja", response.toStopName());
     }
 }

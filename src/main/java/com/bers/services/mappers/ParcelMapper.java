@@ -17,7 +17,7 @@ public interface ParcelMapper {
     @Mapping(target = "fromStop", source = "fromStopId", qualifiedByName = "mapStop")
     @Mapping(target = "toStop", source = "toStopId", qualifiedByName = "mapStop")
     @Mapping(target = "trip", source = "tripId", qualifiedByName = "mapTrip")
-    @Mapping(target = "status", expression = "java(com.example.busconnect.domain.entities.enums.ParcelStatus.CREATED)")
+    @Mapping(target = "status", expression = "java(com.bers.domain.entities.enums.ParcelStatus.CREATED)")
     @Mapping(target = "proofPhotoUrl", ignore = true)
     @Mapping(target = "deliveryOtp", expression = "java(generateOTP())")
     @Mapping(target = "createdAt", ignore = true)

@@ -3,9 +3,8 @@ package com.bers.services.mappers;
 import com.bers.api.dtos.ConfigDtos.ConfigCreateRequest;
 import com.bers.api.dtos.ConfigDtos.ConfigResponse;
 import com.bers.domain.entities.Config;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
@@ -34,9 +33,9 @@ class ConfigMapperTest {
         Config config = configMapper.toEntity(request);
 
         assertNotNull(config);
-        assertEquals("seat.hold.minutes", config.getKey());
-        assertEquals("10", config.getValue());
-        assertEquals("Minutes to hold a seat", config.getDescription());
+        Assertions.assertEquals("seat.hold.minutes", config.getKey());
+        Assertions.assertEquals("10", config.getValue());
+        Assertions.assertEquals("Minutes to hold a seat", config.getDescription());
         assertNull(config.getId());
     }
 
@@ -56,10 +55,10 @@ class ConfigMapperTest {
         ConfigResponse response = configMapper.toResponse(config);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("overbooking.percentage", response.key());
-        assertEquals("5", response.value());
-        assertEquals("Max overbooking percentage", response.description());
-        assertEquals(updatedAt, response.updatedAt());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("overbooking.percentage", response.key());
+        Assertions.assertEquals("5", response.value());
+        Assertions.assertEquals("Max overbooking percentage", response.description());
+        Assertions.assertEquals(updatedAt, response.updatedAt());
     }
 }

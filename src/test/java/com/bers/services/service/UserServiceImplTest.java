@@ -7,6 +7,7 @@ import com.bers.domain.entities.enums.UserStatus;
 import com.bers.domain.repositories.UserRepository;
 import com.bers.services.mappers.UserMapper;
 import com.bers.services.service.serviceImple.UserServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,8 +85,8 @@ class UserServiceImplTest {
         UserResponse result = userService.create(createRequest);
 
         assertNotNull(result);
-        assertEquals(user.getId(), result.id());
-        assertEquals(user.getEmail(), result.email());
+        Assertions.assertEquals(user.getId(), result.id());
+        Assertions.assertEquals(user.getEmail(), result.email());
         verify(userRepository).existsByEmail(createRequest.email());
         verify(userRepository).existsByPhone(createRequest.phone());
         verify(passwordEncoder).encode(createRequest.password());
@@ -104,7 +105,7 @@ class UserServiceImplTest {
                 () -> userService.create(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("Email already exists"));
+        Assertions.assertTrue(exception.getMessage().contains("Email already exists"));
         verify(userRepository).existsByEmail(createRequest.email());
         verify(userRepository, never()).save(any(User.class));
     }
@@ -120,7 +121,7 @@ class UserServiceImplTest {
                 () -> userService.create(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("Phone already exists"));
+        Assertions.assertTrue(exception.getMessage().contains("Phone already exists"));
         verify(userRepository).existsByPhone(createRequest.phone());
         verify(userRepository, never()).save(any(User.class));
     }
@@ -150,7 +151,7 @@ class UserServiceImplTest {
                 () -> userService.update(1L, updateRequest)
         );
 
-        assertTrue(exception.getMessage().contains("User not found"));
+        Assertions.assertTrue(exception.getMessage().contains("User not found"));
         verify(userRepository).findById(1L);
         verify(userRepository, never()).save(any(User.class));
     }
@@ -163,7 +164,7 @@ class UserServiceImplTest {
         UserResponse result = userService.getById(1L);
 
         assertNotNull(result);
-        assertEquals(user.getId(), result.id());
+        Assertions.assertEquals(user.getId(), result.id());
         verify(userRepository).findById(1L);
         verify(userMapper).toResponse(user);
     }
@@ -178,7 +179,7 @@ class UserServiceImplTest {
                 () -> userService.getById(1L)
         );
 
-        assertTrue(exception.getMessage().contains("User not found"));
+        Assertions.assertTrue(exception.getMessage().contains("User not found"));
         verify(userRepository).findById(1L);
     }
 
@@ -190,7 +191,7 @@ class UserServiceImplTest {
         UserResponse result = userService.getByEmail("john@example.com");
 
         assertNotNull(result);
-        assertEquals(user.getEmail(), result.email());
+        Assertions.assertEquals(user.getEmail(), result.email());
         verify(userRepository).findByEmail("john@example.com");
     }
 
@@ -202,7 +203,7 @@ class UserServiceImplTest {
        UserResponse result = userService.getByPhone("3001234567");
 
         assertNotNull(result);
-        assertEquals(user.getPhone(), result.phone());
+        Assertions.assertEquals(user.getPhone(), result.phone());
         verify(userRepository).findByPhone("3001234567");
     }
 
@@ -215,7 +216,7 @@ class UserServiceImplTest {
         List<UserResponse> result = userService.getAll();
 
         assertNotNull(result);
-        assertEquals(2, result.size());
+        Assertions.assertEquals(2, result.size());
         verify(userRepository).findAll();
         verify(userMapper, times(2)).toResponse(any(User.class));
     }
@@ -229,7 +230,7 @@ class UserServiceImplTest {
         List<UserResponse> result = userService.getByRole(UserRole.PASSENGER);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
         verify(userRepository).findByRole(UserRole.PASSENGER);
     }
 
@@ -245,7 +246,7 @@ class UserServiceImplTest {
         );
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
         verify(userRepository).findByRoleAndStatus(UserRole.PASSENGER, UserStatus.ACTIVE);
     }
 
@@ -270,7 +271,7 @@ class UserServiceImplTest {
                 () -> userService.delete(1L)
         );
 
-        assertTrue(exception.getMessage().contains("User not found"));
+        Assertions.assertTrue(exception.getMessage().contains("User not found"));
         verify(userRepository).existsById(1L);
         verify(userRepository, never()).deleteById(anyLong());
     }
@@ -282,7 +283,7 @@ class UserServiceImplTest {
 
         boolean result = userService.existsByEmail("john@example.com");
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
         verify(userRepository).existsByEmail("john@example.com");
     }
 
@@ -293,7 +294,7 @@ class UserServiceImplTest {
 
         boolean result = userService.existsByPhone("3001234567");
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
         verify(userRepository).existsByPhone("3001234567");
     }
 
@@ -307,6 +308,6 @@ class UserServiceImplTest {
         assertNotNull(result);
         verify(userRepository).findById(1L);
         verify(userRepository).save(user);
-        assertEquals(UserStatus.INACTIVE, user.getStatus());
+        Assertions.assertEquals(UserStatus.INACTIVE, user.getStatus());
     }
 }

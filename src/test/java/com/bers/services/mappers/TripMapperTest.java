@@ -6,6 +6,7 @@ import com.bers.domain.entities.Route;
 import com.bers.domain.entities.Trip;
 import com.bers.domain.entities.enums.BusStatus;
 import com.bers.domain.entities.enums.TripStatus;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,14 +47,14 @@ class TripMapperTest {
         Trip trip = tripMapper.toEntity(request);
 
         assertNotNull(trip);
-        assertEquals(date, trip.getDate());
-        assertEquals(departure, trip.getDepartureAt());
-        assertEquals(arrival, trip.getArrivalEta());
-        assertEquals(TripStatus.SCHEDULED, trip.getStatus());
+        Assertions.assertEquals(date, trip.getDate());
+        Assertions.assertEquals(departure, trip.getDepartureAt());
+        Assertions.assertEquals(arrival, trip.getArrivalEta());
+        Assertions.assertEquals(TripStatus.SCHEDULED, trip.getStatus());
         assertNotNull(trip.getRoute());
-        assertEquals(1L, trip.getRoute().getId());
+        Assertions.assertEquals(1L, trip.getRoute().getId());
         assertNotNull(trip.getBus());
-        assertEquals(2L, trip.getBus().getId());
+        Assertions.assertEquals(2L, trip.getBus().getId());
         assertNull(trip.getId());
     }
 
@@ -101,10 +102,10 @@ class TripMapperTest {
 
         tripMapper.updateEntity(request, existingTrip);
 
-        assertEquals(newDeparture, existingTrip.getDepartureAt());
-        assertEquals(newArrival, existingTrip.getArrivalEta());
-        assertEquals(TripStatus.BOARDING, existingTrip.getStatus());
-        assertEquals(LocalDate.of(2025, 12, 25), existingTrip.getDate());
+        Assertions.assertEquals(newDeparture, existingTrip.getDepartureAt());
+        Assertions.assertEquals(newArrival, existingTrip.getArrivalEta());
+        Assertions.assertEquals(TripStatus.BOARDING, existingTrip.getStatus());
+        Assertions.assertEquals(LocalDate.of(2025, 12, 25), existingTrip.getDate());
     }
 
     @Test
@@ -145,18 +146,18 @@ class TripMapperTest {
         TripResponse response = tripMapper.toResponse(trip);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals(date, response.date());
-        assertEquals(departure, response.departureAt());
-        assertEquals(arrival, response.arrivalEta());
-        assertEquals("SCHEDULED", response.status());
-        assertEquals(1L, response.routeId());
-        assertEquals("Bogotá - Tunja", response.routeName());
-        assertEquals("Bogotá", response.origin());
-        assertEquals("Tunja", response.destination());
-        assertEquals(2L, response.busId());
-        assertEquals("ABC123", response.busPlate());
-        assertEquals(40, response.capacity());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals(date, response.date());
+        Assertions.assertEquals(departure, response.departureAt());
+        Assertions.assertEquals(arrival, response.arrivalEta());
+        Assertions.assertEquals("SCHEDULED", response.status());
+        Assertions.assertEquals(1L, response.routeId());
+        Assertions.assertEquals("Bogotá - Tunja", response.routeName());
+        Assertions.assertEquals("Bogotá", response.origin());
+        Assertions.assertEquals("Tunja", response.destination());
+        Assertions.assertEquals(2L, response.busId());
+        Assertions.assertEquals("ABC123", response.busPlate());
+        Assertions.assertEquals(40, response.capacity());
     }
 
     @Test
@@ -175,7 +176,7 @@ class TripMapperTest {
 
             TripResponse response = tripMapper.toResponse(trip);
 
-            assertEquals(status.name(), response.status());
+            Assertions.assertEquals(status.name(), response.status());
         }
     }
 
@@ -219,8 +220,8 @@ class TripMapperTest {
         );
 
         Trip trip1 = tripMapper.toEntity(request1);
-        assertEquals(departure1, trip1.getDepartureAt());
-        assertEquals(arrival1, trip1.getArrivalEta());
+        Assertions.assertEquals(departure1, trip1.getDepartureAt());
+        Assertions.assertEquals(arrival1, trip1.getArrivalEta());
 
         LocalDate date2 = LocalDate.of(2025, 12, 31);
         LocalDateTime departure2 = LocalDateTime.of(2025, 12, 31, 23, 0);
@@ -231,8 +232,8 @@ class TripMapperTest {
         );
 
         Trip trip2 = tripMapper.toEntity(request2);
-        assertEquals(departure2, trip2.getDepartureAt());
-        assertEquals(arrival2, trip2.getArrivalEta());
+        Assertions.assertEquals(departure2, trip2.getDepartureAt());
+        Assertions.assertEquals(arrival2, trip2.getArrivalEta());
     }
 
     @Test
@@ -263,18 +264,18 @@ class TripMapperTest {
 
         TripResponse response = tripMapper.toResponse(trip);
 
-        assertEquals(999L, response.id());
-        assertEquals(date, response.date());
-        assertEquals(departure, response.departureAt());
-        assertEquals(arrival, response.arrivalEta());
-        assertEquals("SCHEDULED", response.status());
-        assertEquals(100L, response.routeId());
-        assertEquals("Test Route", response.routeName());
-        assertEquals("Origin City", response.origin());
-        assertEquals("Destination City", response.destination());
-        assertEquals(200L, response.busId());
-        assertEquals("TEST-999", response.busPlate());
-        assertEquals(50, response.capacity());
+        Assertions.assertEquals(999L, response.id());
+        Assertions.assertEquals(date, response.date());
+        Assertions.assertEquals(departure, response.departureAt());
+        Assertions.assertEquals(arrival, response.arrivalEta());
+        Assertions.assertEquals("SCHEDULED", response.status());
+        Assertions.assertEquals(100L, response.routeId());
+        Assertions.assertEquals("Test Route", response.routeName());
+        Assertions.assertEquals("Origin City", response.origin());
+        Assertions.assertEquals("Destination City", response.destination());
+        Assertions.assertEquals(200L, response.busId());
+        Assertions.assertEquals("TEST-999", response.busPlate());
+        Assertions.assertEquals(50, response.capacity());
     }
 
     @Test
@@ -290,8 +291,8 @@ class TripMapperTest {
 
         Trip trip = tripMapper.toEntity(request);
 
-        assertEquals(date, trip.getDate());
-        assertEquals(departure, trip.getDepartureAt());
-        assertEquals(arrival, trip.getArrivalEta());
+        Assertions.assertEquals(date, trip.getDate());
+        Assertions.assertEquals(departure, trip.getDepartureAt());
+        Assertions.assertEquals(arrival, trip.getArrivalEta());
     }
 }

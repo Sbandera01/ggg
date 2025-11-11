@@ -1,4 +1,5 @@
 package com.bers.services.mappers;
+
 import com.bers.api.dtos.SeatHoldDtos.*;
 import com.bers.domain.entities.*;
 import org.mapstruct.*;
@@ -15,7 +16,7 @@ public interface SeatHoldMapper {
     @Mapping(target = "trip", source = "tripId", qualifiedByName = "mapTrip")
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "expiresAt", ignore = true)
-    @Mapping(target = "status", expression = "java(com.example.busconnect.domain.entities.enums.HoldStatus.HOLD)")
+    @Mapping(target = "status", expression = "java(com.bers.domain.entities.enums.HoldStatus.HOLD)")
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "seatNumber", source = "seatNumber")
     SeatHold toEntity(SeatHoldCreateRequest dto);

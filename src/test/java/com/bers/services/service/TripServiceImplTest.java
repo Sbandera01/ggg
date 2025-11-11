@@ -10,6 +10,7 @@ import com.bers.domain.repositories.RouteRepository;
 import com.bers.domain.repositories.TripRepository;
 import com.bers.services.mappers.TripMapper;
 import com.bers.services.service.serviceImple.TripServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -102,7 +103,7 @@ class TripServiceImplTest {
         TripResponse result = tripService.createTrip(createRequest);
 
         assertNotNull(result);
-        assertEquals(1L, result.id());
+        Assertions.assertEquals(1L, result.id());
         verify(routeRepository).findById(1L);
         verify(busRepository).findById(1L);
         verify(tripRepository).save(any(Trip.class));
@@ -120,7 +121,7 @@ class TripServiceImplTest {
                 () -> tripService.createTrip(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("Route not found"));
+        Assertions.assertTrue(exception.getMessage().contains("Route not found"));
         verify(routeRepository).findById(1L);
         verify(tripRepository, never()).save(any(Trip.class));
     }
@@ -136,7 +137,7 @@ class TripServiceImplTest {
                 () -> tripService.createTrip(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("Bus not found"));
+        Assertions.assertTrue(exception.getMessage().contains("Bus not found"));
         verify(busRepository).findById(1L);
         verify(tripRepository, never()).save(any(Trip.class));
     }
@@ -161,7 +162,7 @@ class TripServiceImplTest {
                 () -> tripService.createTrip(invalidRequest)
         );
 
-        assertTrue(exception.getMessage().contains("Arrival time must be after departure time"));
+        Assertions.assertTrue(exception.getMessage().contains("Arrival time must be after departure time"));
         verify(tripRepository, never()).save(any(Trip.class));
     }
 
@@ -187,7 +188,7 @@ class TripServiceImplTest {
         TripResponse result = tripService.getTripById(1L);
 
         assertNotNull(result);
-        assertEquals(1L, result.id());
+        Assertions.assertEquals(1L, result.id());
         verify(tripRepository).findById(1L);
         verify(tripMapper).toResponse(trip);
     }
@@ -216,7 +217,7 @@ class TripServiceImplTest {
         );
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
         verify(routeRepository).existsById(1L);
     }
 
@@ -233,7 +234,7 @@ class TripServiceImplTest {
         );
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
         verify(busRepository).existsById(1L);
     }
 
@@ -248,7 +249,7 @@ class TripServiceImplTest {
         assertNotNull(result);
         verify(tripRepository).findById(1L);
         verify(tripRepository).save(trip);
-        assertEquals(TripStatus.BOARDING, trip.getStatus());
+        Assertions.assertEquals(TripStatus.BOARDING, trip.getStatus());
     }
 
     @Test
@@ -262,7 +263,7 @@ class TripServiceImplTest {
                 () -> tripService.changeTripStatus(1L, TripStatus.BOARDING)
         );
 
-        assertTrue(exception.getMessage().contains("Cannot change status from"));
+        Assertions.assertTrue(exception.getMessage().contains("Cannot change status from"));
         verify(tripRepository, never()).save(any(Trip.class));
     }
 
@@ -277,7 +278,7 @@ class TripServiceImplTest {
                 () -> tripService.changeTripStatus(1L, TripStatus.ARRIVED)
         );
 
-        assertTrue(exception.getMessage().contains("Invalid status transition"));
+        Assertions.assertTrue(exception.getMessage().contains("Invalid status transition"));
         verify(tripRepository, never()).save(any(Trip.class));
     }
 
@@ -327,6 +328,6 @@ class TripServiceImplTest {
                 )
         );
 
-        assertTrue(exception.getMessage().contains("already scheduled"));
+        Assertions.assertTrue(exception.getMessage().contains("already scheduled"));
     }
 }

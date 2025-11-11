@@ -3,17 +3,15 @@ package com.bers.services.mappers;
 import com.bers.api.dtos.RouteDtos.*;
 import com.bers.domain.entities.Route;
 import com.bers.domain.entities.Stop;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions.*;
 import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("RouteMapper Tests")
 class RouteMapperTest {
@@ -40,12 +38,12 @@ class RouteMapperTest {
         Route route = routeMapper.toEntity(request);
 
         assertNotNull(route);
-        assertEquals("BOG-TUN", route.getCode());
-        assertEquals("Bogotá - Tunja", route.getName());
-        assertEquals("Bogotá", route.getOrigin());
-        assertEquals("Tunja", route.getDestination());
-        assertEquals(150, route.getDistanceKm());
-        assertEquals(180, route.getDurationMin());
+        Assertions.assertEquals("BOG-TUN", route.getCode());
+        Assertions.assertEquals("Bogotá - Tunja", route.getName());
+        Assertions.assertEquals("Bogotá", route.getOrigin());
+        Assertions.assertEquals("Tunja", route.getDestination());
+        Assertions.assertEquals(150, route.getDistanceKm());
+        Assertions.assertEquals(180, route.getDurationMin());
         assertNull(route.getId());
     }
 
@@ -72,13 +70,13 @@ class RouteMapperTest {
 
         routeMapper.updateEntity(request, existingRoute);
 
-        assertEquals("Bogotá - Tunja Express", existingRoute.getName());
-        assertEquals(160, existingRoute.getDistanceKm());
-        assertEquals(170, existingRoute.getDurationMin());
+        Assertions.assertEquals("Bogotá - Tunja Express", existingRoute.getName());
+        Assertions.assertEquals(160, existingRoute.getDistanceKm());
+        Assertions.assertEquals(170, existingRoute.getDurationMin());
 
-        assertEquals("BOG-TUN", existingRoute.getCode());
-        assertEquals("Bogotá", existingRoute.getOrigin());
-        assertEquals("Tunja", existingRoute.getDestination());
+        Assertions.assertEquals("BOG-TUN", existingRoute.getCode());
+        Assertions.assertEquals("Bogotá", existingRoute.getOrigin());
+        Assertions.assertEquals("Tunja", existingRoute.getDestination());
     }
 
     @Test
@@ -99,15 +97,15 @@ class RouteMapperTest {
         RouteResponse response = routeMapper.toResponse(route);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("BOG-TUN", response.code());
-        assertEquals("Bogotá - Tunja", response.name());
-        assertEquals("Bogotá", response.origin());
-        assertEquals("Tunja", response.destination());
-        assertEquals(150, response.distanceKm());
-        assertEquals(180, response.durationMin());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("BOG-TUN", response.code());
+        Assertions.assertEquals("Bogotá - Tunja", response.name());
+        Assertions.assertEquals("Bogotá", response.origin());
+        Assertions.assertEquals("Tunja", response.destination());
+        Assertions.assertEquals(150, response.distanceKm());
+        Assertions.assertEquals(180, response.durationMin());
         assertNotNull(response.stops());
-        assertTrue(response.stops().isEmpty());
+        Assertions.assertTrue(response.stops().isEmpty());
     }
 
     @Test
@@ -157,24 +155,24 @@ class RouteMapperTest {
 
         assertNotNull(response);
         assertNotNull(response.stops());
-        assertEquals(3, response.stops().size());
+        Assertions.assertEquals(3, response.stops().size());
 
-        StopSummary firstStop = response.stops().get(0);
-        assertEquals(1L, firstStop.id());
-        assertEquals("Terminal Bogotá", firstStop.name());
-        assertEquals(0, firstStop.order());
-        assertEquals(new BigDecimal("4.6533"), firstStop.lat());
-        assertEquals(new BigDecimal("-74.0836"), firstStop.lng());
+        StopSummary firstStop = response.stops().getFirst();
+        Assertions.assertEquals(1L, firstStop.id());
+        Assertions.assertEquals("Terminal Bogotá", firstStop.name());
+        Assertions.assertEquals(0, firstStop.order());
+        Assertions.assertEquals(new BigDecimal("4.6533"), firstStop.lat());
+        Assertions.assertEquals(new BigDecimal("-74.0836"), firstStop.lng());
 
         StopSummary secondStop = response.stops().get(1);
-        assertEquals(2L, secondStop.id());
-        assertEquals("Zipaquirá", secondStop.name());
-        assertEquals(1, secondStop.order());
+        Assertions.assertEquals(2L, secondStop.id());
+        Assertions.assertEquals("Zipaquirá", secondStop.name());
+        Assertions.assertEquals(1, secondStop.order());
 
         StopSummary thirdStop = response.stops().get(2);
-        assertEquals(3L, thirdStop.id());
-        assertEquals("Terminal Tunja", thirdStop.name());
-        assertEquals(2, thirdStop.order());
+        Assertions.assertEquals(3L, thirdStop.id());
+        Assertions.assertEquals("Terminal Tunja", thirdStop.name());
+        Assertions.assertEquals(2, thirdStop.order());
     }
 
     @Test
@@ -214,13 +212,13 @@ class RouteMapperTest {
         route.setId(5L);
         RouteResponse response = routeMapper.toResponse(route);
 
-        assertEquals(5L, response.id());
-        assertEquals(request.code(), response.code());
-        assertEquals(request.name(), response.name());
-        assertEquals(request.origin(), response.origin());
-        assertEquals(request.destination(), response.destination());
-        assertEquals(request.distanceKm(), response.distanceKm());
-        assertEquals(request.durationMin(), response.durationMin());
+        Assertions.assertEquals(5L, response.id());
+        Assertions.assertEquals(request.code(), response.code());
+        Assertions.assertEquals(request.name(), response.name());
+        Assertions.assertEquals(request.origin(), response.origin());
+        Assertions.assertEquals(request.destination(), response.destination());
+        Assertions.assertEquals(request.distanceKm(), response.distanceKm());
+        Assertions.assertEquals(request.durationMin(), response.durationMin());
     }
 
     @Test
@@ -239,8 +237,8 @@ class RouteMapperTest {
         Route route = routeMapper.toEntity(request);
 
         assertNotNull(route);
-        assertEquals("A", route.getCode());
-        assertEquals(1, route.getDistanceKm());
-        assertEquals(1, route.getDurationMin());
+        Assertions.assertEquals("A", route.getCode());
+        Assertions.assertEquals(1, route.getDistanceKm());
+        Assertions.assertEquals(1, route.getDurationMin());
     }
 }

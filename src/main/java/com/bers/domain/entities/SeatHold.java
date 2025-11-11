@@ -33,6 +33,7 @@ public class SeatHold {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
+    @Builder.Default
     private LocalDateTime createdAt =  LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)

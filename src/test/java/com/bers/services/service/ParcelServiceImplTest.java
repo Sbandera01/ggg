@@ -10,6 +10,7 @@ import com.bers.domain.repositories.StopRepository;
 import com.bers.domain.repositories.TripRepository;
 import com.bers.services.mappers.ParcelMapper;
 import com.bers.services.service.serviceImple.ParcelServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -79,7 +80,7 @@ class ParcelServiceImplTest {
 
         assertNotNull(result);
         assertNotNull(result.code());
-        assertTrue(result.code().startsWith("PCL-"));
+        Assertions.assertTrue(result.code().startsWith("PCL-"));
         verify(parcelRepository).save(any(Parcel.class));
         verify(parcelMapper).toEntity(createRequest);
         verify(parcelMapper).toResponse(any(Parcel.class));
@@ -97,7 +98,7 @@ class ParcelServiceImplTest {
                 () -> parcelService.createParcel(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("Invalid stop sequence"));
+        Assertions.assertTrue(exception.getMessage().contains("Invalid stop sequence"));
         verify(parcelRepository, never()).save(any());
     }
 
@@ -112,7 +113,7 @@ class ParcelServiceImplTest {
         ParcelResponse result = parcelService.markAsInTransit(1L, 1L);
 
         assertNotNull(result);
-        assertEquals(ParcelStatus.IN_TRANSIT, parcel.getStatus());
+        Assertions.assertEquals(ParcelStatus.IN_TRANSIT, parcel.getStatus());
         verify(parcelRepository).save(parcel);
     }
 
@@ -128,8 +129,8 @@ class ParcelServiceImplTest {
         );
 
         assertNotNull(result);
-        assertEquals(ParcelStatus.DELIVERED, parcel.getStatus());
-        assertEquals("https://photo.url", parcel.getProofPhotoUrl());
+        Assertions.assertEquals(ParcelStatus.DELIVERED, parcel.getStatus());
+        Assertions.assertEquals("https://photo.url", parcel.getProofPhotoUrl());
         assertNotNull(parcel.getDeliveredAt());
     }
 
@@ -144,7 +145,7 @@ class ParcelServiceImplTest {
                 () -> parcelService.markAsDelivered(1L, "999999", "url")
         );
 
-        assertTrue(exception.getMessage().contains("Invalid OTP"));
+        Assertions.assertTrue(exception.getMessage().contains("Invalid OTP"));
         verify(parcelRepository, never()).save(any());
     }
 
@@ -155,6 +156,6 @@ class ParcelServiceImplTest {
 
         boolean result = parcelService.validateOtp(1L, "123456");
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
     }
 }

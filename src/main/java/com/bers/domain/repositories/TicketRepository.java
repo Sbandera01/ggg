@@ -1,7 +1,9 @@
 package com.bers.domain.repositories;
 
 import com.bers.domain.entities.Ticket;
+import com.bers.domain.entities.Trip;
 import com.bers.domain.entities.enums.TicketStatus;
+import com.bers.domain.entities.enums.TripStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -46,7 +48,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     List<Ticket> findTicketsForDepartedTrips(@Param("dateTime") LocalDateTime dateTime);
 
     @Query("""
-    SELECT t 
+    SELECT t\s
     FROM Ticket t
     WHERE t.trip.id = :tripId
       AND t.seatNumber = :seatNumber
@@ -54,5 +56,15 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 """)
     List<Ticket> findByTripIdAndSeatNumber(@Param("tripId") Long tripId,
                                            @Param("seatNumber") String seatNumber);
+
+    List<Trip> findByStatusAndDepartureAtBefore(TripStatus status, LocalDateTime dateTime);
+
+    @Query("SELECT t FROM Trip t WHERE t.status = :status " +
+            "AND t.departureAt BETWEEN :start AND :end")
+    List<Trip> findByStatusAndDepartureAtBetween(
+            @Param("status") TripStatus status,
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end
+    );
 
 }

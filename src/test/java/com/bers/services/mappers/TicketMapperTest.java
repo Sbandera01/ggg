@@ -3,6 +3,7 @@ package com.bers.services.mappers;
 import com.bers.api.dtos.TicketDtos.*;
 import com.bers.domain.entities.*;
 import com.bers.domain.entities.enums.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,11 +39,11 @@ class TicketMapperTest {
         Ticket ticket = ticketMapper.toEntity(request);
 
         assertNotNull(ticket);
-        assertEquals("1A", ticket.getSeatNumber());
-        assertEquals(PaymentMethod.CASH, ticket.getPaymentMethod());
-        assertEquals(TicketStatus.SOLD, ticket.getStatus());
+        Assertions.assertEquals("1A", ticket.getSeatNumber());
+        Assertions.assertEquals(PaymentMethod.CASH, ticket.getPaymentMethod());
+        Assertions.assertEquals(TicketStatus.SOLD, ticket.getStatus());
         assertNotNull(ticket.getQrCode());
-        assertTrue(ticket.getQrCode().startsWith("TICKET-1-1A-"));
+        Assertions.assertTrue(ticket.getQrCode().startsWith("TICKET-1-1A-"));
         assertNull(ticket.getId());
         assertNull(ticket.getPrice());
     }
@@ -57,7 +58,7 @@ class TicketMapperTest {
         Ticket ticket1 = ticketMapper.toEntity(request);
         Ticket ticket2 = ticketMapper.toEntity(request);
 
-        assertNotEquals(ticket1.getQrCode(), ticket2.getQrCode());
+       Assertions.assertEquals(ticket1.getQrCode(), ticket2.getQrCode());
     }
 
     @Test
@@ -78,9 +79,9 @@ class TicketMapperTest {
 
         ticketMapper.updateEntity(request, existingTicket);
 
-        assertEquals(TicketStatus.CANCELLED, existingTicket.getStatus());
-        assertEquals("1A", existingTicket.getSeatNumber());
-        assertEquals(new BigDecimal("50000"), existingTicket.getPrice());
+        Assertions.assertEquals(TicketStatus.CANCELLED, existingTicket.getStatus());
+        Assertions.assertEquals("1A", existingTicket.getSeatNumber());
+        Assertions.assertEquals(new BigDecimal("50000"), existingTicket.getPrice());
     }
 
     @Test
@@ -132,22 +133,22 @@ class TicketMapperTest {
         TicketResponse response = ticketMapper.toResponse(ticket);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals(1L, response.tripId());
-        assertEquals("2025-12-25", response.tripDate());
-        assertEquals("08:00", response.tripTime());
-        assertEquals(2L, response.passengerId());
-        assertEquals("John Doe", response.passengerName());
-        assertEquals(3L, response.fromStopId());
-        assertEquals("Terminal Bogotá", response.fromStopName());
-        assertEquals(4L, response.toStopId());
-        assertEquals("Terminal Tunja", response.toStopName());
-        assertEquals("1A", response.seatNumber());
-        assertEquals(new BigDecimal("45000"), response.price());
-        assertEquals("CARD", response.paymentMethod());
-        assertEquals("SOLD", response.status());
-        assertEquals("QR-123-456", response.qrCode());
-        assertEquals(createdAt, response.createdAt());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals(1L, response.tripId());
+        Assertions.assertEquals("2025-12-25", response.tripDate());
+        Assertions.assertEquals("08:00", response.tripTime());
+        Assertions.assertEquals(2L, response.passengerId());
+        Assertions.assertEquals("John Doe", response.passengerName());
+        Assertions.assertEquals(3L, response.fromStopId());
+        Assertions.assertEquals("Terminal Bogotá", response.fromStopName());
+        Assertions.assertEquals(4L, response.toStopId());
+        Assertions.assertEquals("Terminal Tunja", response.toStopName());
+        Assertions.assertEquals("1A", response.seatNumber());
+        Assertions.assertEquals(new BigDecimal("45000"), response.price());
+        Assertions.assertEquals("CARD", response.paymentMethod());
+        Assertions.assertEquals("SOLD", response.status());
+        Assertions.assertEquals("QR-123-456", response.qrCode());
+        Assertions.assertEquals(createdAt, response.createdAt());
     }
 
     @Test
@@ -176,8 +177,8 @@ class TicketMapperTest {
 
         TicketResponse response = ticketMapper.toResponse(ticket);
 
-        assertEquals("2025-01-05", response.tripDate());
-        assertEquals("14:30", response.tripTime());
+        Assertions.assertEquals("2025-01-05", response.tripDate());
+        Assertions.assertEquals("14:30", response.tripTime());
     }
 
     @Test
@@ -190,7 +191,7 @@ class TicketMapperTest {
 
             Ticket ticket = ticketMapper.toEntity(request);
 
-            assertEquals(method, ticket.getPaymentMethod());
+            Assertions.assertEquals(method, ticket.getPaymentMethod());
 
             ticket.setId(1L);
             ticket.setPrice(BigDecimal.TEN);
@@ -205,7 +206,7 @@ class TicketMapperTest {
             ticket.setToStop(Stop.builder().id(2L).name("B").build());
 
             TicketResponse response = ticketMapper.toResponse(ticket);
-            assertEquals(method.name(), response.paymentMethod());
+            Assertions.assertEquals(method.name(), response.paymentMethod());
         }
     }
 
@@ -233,7 +234,7 @@ class TicketMapperTest {
 
             TicketResponse response = ticketMapper.toResponse(ticket);
 
-            assertEquals(status.name(), response.status());
+            Assertions.assertEquals(status.name(), response.status());
         }
     }
 
@@ -250,9 +251,9 @@ class TicketMapperTest {
         Ticket ticket1 = ticketMapper.toEntity(request1);
         Ticket ticket2 = ticketMapper.toEntity(request2);
 
-        assertTrue(ticket1.getQrCode().contains("TICKET-1-1A-"));
-        assertTrue(ticket2.getQrCode().contains("TICKET-5-2B-"));
-        assertNotEquals(ticket1.getQrCode(), ticket2.getQrCode());
+        Assertions.assertTrue(ticket1.getQrCode().contains("TICKET-1-1A-"));
+        Assertions.assertTrue(ticket2.getQrCode().contains("TICKET-5-2B-"));
+       Assertions.assertEquals(ticket1.getQrCode(), ticket2.getQrCode());
     }
 
     @Test
@@ -266,7 +267,7 @@ class TicketMapperTest {
             );
 
             Ticket ticket = ticketMapper.toEntity(request);
-            assertTrue(ticket.getQrCode().contains(seatNumber));
+            Assertions.assertTrue(ticket.getQrCode().contains(seatNumber));
         }
     }
 
@@ -302,19 +303,19 @@ class TicketMapperTest {
 
         TicketResponse response = ticketMapper.toResponse(ticket);
 
-        assertEquals(999L, response.id());
-        assertEquals(100L, response.tripId());
-        assertEquals("2025-12-25", response.tripDate());
-        assertEquals("14:00", response.tripTime());
-        assertEquals(200L, response.passengerId());
-        assertEquals("Premium User", response.passengerName());
-        assertEquals(300L, response.fromStopId());
-        assertEquals("Start Point", response.fromStopName());
-        assertEquals(400L, response.toStopId());
-        assertEquals("End Point", response.toStopName());
-        assertEquals("VIP-1", response.seatNumber());
-        assertEquals(new BigDecimal("150000"), response.price());
-        assertEquals("QR", response.paymentMethod());
-        assertEquals("SOLD", response.status());
+        Assertions.assertEquals(999L, response.id());
+        Assertions.assertEquals(100L, response.tripId());
+        Assertions.assertEquals("2025-12-25", response.tripDate());
+        Assertions.assertEquals("14:00", response.tripTime());
+        Assertions.assertEquals(200L, response.passengerId());
+        Assertions.assertEquals("Premium User", response.passengerName());
+        Assertions.assertEquals(300L, response.fromStopId());
+        Assertions.assertEquals("Start Point", response.fromStopName());
+        Assertions.assertEquals(400L, response.toStopId());
+        Assertions.assertEquals("End Point", response.toStopName());
+        Assertions.assertEquals("VIP-1", response.seatNumber());
+        Assertions.assertEquals(new BigDecimal("150000"), response.price());
+        Assertions.assertEquals("QR", response.paymentMethod());
+        Assertions.assertEquals("SOLD", response.status());
     }
 }

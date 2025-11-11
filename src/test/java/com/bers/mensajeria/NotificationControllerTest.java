@@ -1,5 +1,6 @@
 package com.bers.mensajeria;
 
+import com.bers.security.msg.NotificationProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

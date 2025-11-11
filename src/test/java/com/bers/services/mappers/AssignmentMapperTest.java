@@ -7,16 +7,14 @@ import com.bers.domain.entities.Route;
 import com.bers.domain.entities.Trip;
 import com.bers.domain.entities.User;
 import com.bers.domain.entities.enums.TripStatus;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("AssignmentMapper Tests")
 class AssignmentMapperTest {
@@ -74,15 +72,15 @@ class AssignmentMapperTest {
         AssignmentResponse response = assignmentMapper.toResponse(assignment);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertTrue(response.checklistOk());
-        assertEquals(assignedAt, response.assignedAt());
-        assertEquals(1L, response.tripId());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertTrue(response.checklistOk());
+        Assertions.assertEquals(assignedAt, response.assignedAt());
+        Assertions.assertEquals(1L, response.tripId());
         assertNotNull(response.tripInfo());
-        assertEquals("SCHEDULED", response.tripStatus());
-        assertEquals(2L, response.driverId());
-        assertEquals("Driver One", response.driverName());
-        assertEquals(3L, response.dispatcherId());
-        assertEquals("Dispatcher One", response.dispatcherName());
+        Assertions.assertEquals("SCHEDULED", response.tripStatus());
+        Assertions.assertEquals(2L, response.driverId());
+        Assertions.assertEquals("Driver One", response.driverName());
+        Assertions.assertEquals(3L, response.dispatcherId());
+        Assertions.assertEquals("Dispatcher One", response.dispatcherName());
     }
 }

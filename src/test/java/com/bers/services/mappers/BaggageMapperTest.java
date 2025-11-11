@@ -3,15 +3,14 @@ package com.bers.services.mappers;
 import com.bers.api.dtos.BaggageDtos.BaggageCreateRequest;
 import com.bers.api.dtos.BaggageDtos.BaggageResponse;
 import com.bers.domain.entities.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("BaggageMapper Tests")
 class BaggageMapperTest {
@@ -34,12 +33,12 @@ class BaggageMapperTest {
         Baggage baggage = baggageMapper.toEntity(request);
 
         assertNotNull(baggage);
-        assertEquals(new BigDecimal("25.50"), baggage.getWeightKg());
+        Assertions.assertEquals(new BigDecimal("25.50"), baggage.getWeightKg());
         assertNotNull(baggage.getTagCode());
-        assertTrue(baggage.getTagCode().startsWith("BAG-"));
+        Assertions.assertTrue(baggage.getTagCode().startsWith("BAG-"));
 
         // CORRECCIÓN 1: Se valida que el fee se haya calculado (11000.00 para 25.50kg)
-        assertEquals(new BigDecimal("11000.00"), baggage.getFee());
+        Assertions.assertEquals(new BigDecimal("11000.00"), baggage.getFee());
         assertNotNull(baggage.getFee());
     }
 
@@ -50,7 +49,7 @@ class BaggageMapperTest {
 
         Baggage baggage = baggageMapper.toEntity(request);
 
-        assertEquals(BigDecimal.ZERO, baggage.getFee());
+        Assertions.assertEquals(BigDecimal.ZERO, baggage.getFee());
     }
 
     @Test
@@ -60,7 +59,7 @@ class BaggageMapperTest {
 
         Baggage baggage = baggageMapper.toEntity(request);
 
-        assertEquals(new BigDecimal("10000.0"), baggage.getFee());
+        Assertions.assertEquals(new BigDecimal("10000.0"), baggage.getFee());
     }
 
     @Test
@@ -87,15 +86,15 @@ class BaggageMapperTest {
         BaggageResponse response = baggageMapper.toResponse(baggage);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
+        Assertions.assertEquals(1L, response.id());
 
-        assertEquals(new BigDecimal("30.00"), response.weightKg());
+        Assertions.assertEquals(new BigDecimal("30.00"), response.weightKg());
 
-        assertEquals(new BigDecimal("20000.00"), response.fee());
+        Assertions.assertEquals(new BigDecimal("20000.00"), response.fee());
 
-        assertEquals("BAG-12345", response.tagCode());
-        assertEquals(1L, response.ticketId());
-        assertEquals("John Doe", response.passengerName());
+        Assertions.assertEquals("BAG-12345", response.tagCode());
+        Assertions.assertEquals(1L, response.ticketId());
+        Assertions.assertEquals("John Doe", response.passengerName());
         assertNotNull(response.tripInfo());
     }
 }

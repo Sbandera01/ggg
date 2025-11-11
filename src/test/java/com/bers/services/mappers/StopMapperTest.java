@@ -3,6 +3,7 @@ package com.bers.services.mappers;
 import com.bers.api.dtos.StopDtos.*;
 import com.bers.domain.entities.Route;
 import com.bers.domain.entities.Stop;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,13 +38,13 @@ class StopMapperTest {
         Stop stop = stopMapper.toEntity(request);
 
         assertNotNull(stop);
-        assertEquals("Terminal Bogotá", stop.getName());
-        assertEquals(0, stop.getOrder());
-        assertEquals(new BigDecimal("4.6533"), stop.getLat());
-        assertEquals(new BigDecimal("-74.0836"), stop.getLng());
+        Assertions.assertEquals("Terminal Bogotá", stop.getName());
+        Assertions.assertEquals(0, stop.getOrder());
+        Assertions.assertEquals(new BigDecimal("4.6533"), stop.getLat());
+        Assertions.assertEquals(new BigDecimal("-74.0836"), stop.getLng());
         assertNull(stop.getId());
         assertNotNull(stop.getRoute());
-        assertEquals(1L, stop.getRoute().getId());
+        Assertions.assertEquals(1L, stop.getRoute().getId());
     }
 
     @Test
@@ -64,11 +65,11 @@ class StopMapperTest {
 
         stopMapper.updateEntity(request, existingStop);
 
-        assertEquals("New Terminal", existingStop.getName());
-        assertEquals(1, existingStop.getOrder());
+        Assertions.assertEquals("New Terminal", existingStop.getName());
+        Assertions.assertEquals(1, existingStop.getOrder());
 
-        assertEquals(new BigDecimal("4.0000"), existingStop.getLat());
-        assertEquals(new BigDecimal("-74.0000"), existingStop.getLng());
+        Assertions.assertEquals(new BigDecimal("4.0000"), existingStop.getLat());
+        Assertions.assertEquals(new BigDecimal("-74.0000"), existingStop.getLng());
     }
 
     @Test
@@ -92,14 +93,14 @@ class StopMapperTest {
         StopResponse response = stopMapper.toResponse(stop);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("Terminal Bogotá", response.name());
-        assertEquals(0, response.order());
-        assertEquals(new BigDecimal("4.6533"), response.lat());
-        assertEquals(new BigDecimal("-74.0836"), response.lng());
-        assertEquals(1L, response.routeId());
-        assertEquals("Bogotá - Tunja", response.routeName());
-        assertEquals("BOG-TUN", response.routeCode());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("Terminal Bogotá", response.name());
+        Assertions.assertEquals(0, response.order());
+        Assertions.assertEquals(new BigDecimal("4.6533"), response.lat());
+        Assertions.assertEquals(new BigDecimal("-74.0836"), response.lng());
+        Assertions.assertEquals(1L, response.routeId());
+        Assertions.assertEquals("Bogotá - Tunja", response.routeName());
+        Assertions.assertEquals("BOG-TUN", response.routeCode());
     }
 
     @Test
@@ -116,8 +117,8 @@ class StopMapperTest {
         Stop stop = stopMapper.toEntity(request);
 
         assertNotNull(stop);
-        assertEquals(new BigDecimal("4.6533278"), stop.getLat());
-        assertEquals(new BigDecimal("-74.0836333"), stop.getLng());
+        Assertions.assertEquals(new BigDecimal("4.6533278"), stop.getLat());
+        Assertions.assertEquals(new BigDecimal("-74.0836333"), stop.getLng());
     }
 
     @Test
@@ -133,7 +134,7 @@ class StopMapperTest {
             );
 
             Stop stop = stopMapper.toEntity(request);
-            assertEquals(order, stop.getOrder());
+            Assertions.assertEquals(order, stop.getOrder());
         }
     }
 
@@ -150,7 +151,7 @@ class StopMapperTest {
 
         Stop stop1 = stopMapper.toEntity(request1);
 
-        assertEquals(new BigDecimal("90.0"), stop1.getLat());
+        Assertions.assertEquals(new BigDecimal("90.0"), stop1.getLat());
 
         StopCreateRequest request2 = new StopCreateRequest(
                 "South Pole",
@@ -162,7 +163,7 @@ class StopMapperTest {
 
         Stop stop2 = stopMapper.toEntity(request2);
 
-        assertEquals(new BigDecimal("-90.0"), stop2.getLat());
+        Assertions.assertEquals(new BigDecimal("-90.0"), stop2.getLat());
     }
 
     @Test
@@ -178,7 +179,7 @@ class StopMapperTest {
 
         Stop stop1 = stopMapper.toEntity(request1);
 
-        assertEquals(new BigDecimal("180.0"), stop1.getLng());
+        Assertions.assertEquals(new BigDecimal("180.0"), stop1.getLng());
 
         StopCreateRequest request2 = new StopCreateRequest(
                 "West Point",
@@ -190,7 +191,7 @@ class StopMapperTest {
 
         Stop stop2 = stopMapper.toEntity(request2);
 
-        assertEquals(new BigDecimal("-180.0"), stop2.getLng());
+        Assertions.assertEquals(new BigDecimal("-180.0"), stop2.getLng());
     }
 
     @Test
@@ -209,7 +210,7 @@ class StopMapperTest {
         Stop stop = stopMapper.toEntity(request);
 
         assertNotNull(stop.getRoute());
-        assertEquals(routeId, stop.getRoute().getId());
+        Assertions.assertEquals(routeId, stop.getRoute().getId());
     }
 
     @Test
@@ -234,13 +235,13 @@ class StopMapperTest {
 
         StopResponse response = stopMapper.toResponse(stop);
 
-        assertEquals(999L, response.id());
-        assertEquals("Complete Stop", response.name());
-        assertEquals(5, response.order());
-        assertEquals(new BigDecimal("10.1234567"), response.lat());
-        assertEquals(new BigDecimal("-75.9876543"), response.lng());
-        assertEquals(100L, response.routeId());
-        assertEquals("Test Route", response.routeName());
-        assertEquals("TEST", response.routeCode());
+        Assertions.assertEquals(999L, response.id());
+        Assertions.assertEquals("Complete Stop", response.name());
+        Assertions.assertEquals(5, response.order());
+        Assertions.assertEquals(new BigDecimal("10.1234567"), response.lat());
+        Assertions.assertEquals(new BigDecimal("-75.9876543"), response.lng());
+        Assertions.assertEquals(100L, response.routeId());
+        Assertions.assertEquals("Test Route", response.routeName());
+        Assertions.assertEquals("TEST", response.routeCode());
     }
 }

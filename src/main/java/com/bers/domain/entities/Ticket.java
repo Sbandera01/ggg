@@ -32,6 +32,7 @@ public class Ticket {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
+    @Builder.Default
     private TicketStatus status = TicketStatus.SOLD;
 
     @Column(nullable = false, unique = true, length = 100)

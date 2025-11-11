@@ -7,6 +7,7 @@ import com.bers.domain.entities.enums.BusStatus;
 import com.bers.domain.repositories.BusRepository;
 import com.bers.services.mappers.BusMapper;
 import com.bers.services.service.serviceImple.BusServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,7 +63,7 @@ class BusServiceImplTest {
         BusResponse response = busService.createBus(createRequest);
 
         assertNotNull(response);
-        assertEquals("ABC-123", response.plate());
+        Assertions.assertEquals("ABC-123", response.plate());
         verify(busRepository).save(any(Bus.class));
     }
 
@@ -107,7 +108,7 @@ class BusServiceImplTest {
         BusResponse response = busService.getBusById(1L);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
+        Assertions.assertEquals(1L, response.id());
         verify(busRepository).findById(1L);
     }
 
@@ -132,7 +133,7 @@ class BusServiceImplTest {
         BusResponse response = busService.getBusbyPlate("ABC-123");
 
         assertNotNull(response);
-        assertEquals("ABC-123", response.plate());
+        Assertions.assertEquals("ABC-123", response.plate());
         verify(busRepository).findByPlate("ABC-123");
     }
 
@@ -145,7 +146,7 @@ class BusServiceImplTest {
 
         List<BusResponse> responses = busService.getAllBuses();
 
-        assertEquals(2, responses.size());
+        Assertions.assertEquals(2, responses.size());
         verify(busRepository).findAll();
     }
 
@@ -156,7 +157,7 @@ class BusServiceImplTest {
 
         List<BusResponse> responses = busService.getBusesByStatus(BusStatus.ACTIVE);
 
-        assertEquals(1, responses.size());
+        Assertions.assertEquals(1, responses.size());
         verify(busRepository).findByStatus(BusStatus.ACTIVE);
     }
 
@@ -168,7 +169,7 @@ class BusServiceImplTest {
 
         List<BusResponse> responses = busService.getAvailableBuses(30);
 
-        assertEquals(1, responses.size());
+        Assertions.assertEquals(1, responses.size());
         verify(busRepository).findAvailableBusesByCapacity(BusStatus.ACTIVE, 30);
     }
 
@@ -198,7 +199,7 @@ class BusServiceImplTest {
 
         boolean exists = busService.existsByPlate("ABC-123");
 
-        assertTrue(exists);
+        Assertions.assertTrue(exists);
         verify(busRepository).existsByPlate("ABC-123");
     }
 

@@ -5,9 +5,8 @@ import com.bers.domain.entities.Parcel;
 import com.bers.domain.entities.Stop;
 import com.bers.domain.entities.Trip;
 import com.bers.domain.entities.enums.ParcelStatus;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions.*;
 import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
@@ -42,16 +41,16 @@ class ParcelMapperTest {
         Parcel parcel = parcelMapper.toEntity(request);
 
         assertNotNull(parcel);
-        assertEquals("John Sender", parcel.getSenderName());
-        assertEquals("3001234567", parcel.getSenderPhone());
-        assertEquals("Jane Receiver", parcel.getReceiverName());
-        assertEquals("3009876543", parcel.getReceiverPhone());
-        assertEquals(new BigDecimal("25000"), parcel.getPrice());
-        assertEquals(ParcelStatus.CREATED, parcel.getStatus());
-        assertNotNull(parcel.getCode());
-        assertTrue(parcel.getCode().startsWith("PCL-"));
-        assertNotNull(parcel.getDeliveryOtp());
-        assertEquals(6, parcel.getDeliveryOtp().length());
+        Assertions.assertEquals("John Sender", parcel.getSenderName());
+        Assertions.assertEquals("3001234567", parcel.getSenderPhone());
+        Assertions.assertEquals("Jane Receiver", parcel.getReceiverName());
+        Assertions.assertEquals("3009876543", parcel.getReceiverPhone());
+        Assertions.assertEquals(new BigDecimal("25000"), parcel.getPrice());
+        Assertions.assertEquals(ParcelStatus.CREATED, parcel.getStatus());
+        Assertions.assertNotNull(parcel.getCode());
+        Assertions.assertTrue(parcel.getCode().startsWith("PCL-"));
+        Assertions.assertNotNull(parcel.getDeliveryOtp());
+        Assertions.assertEquals(6, parcel.getDeliveryOtp().length());
         assertNull(parcel.getId());
         assertNull(parcel.getProofPhotoUrl());
     }
@@ -65,10 +64,10 @@ class ParcelMapperTest {
         );
 
         Parcel parcel1 = parcelMapper.toEntity(request);
-        try { Thread.sleep(2); } catch (InterruptedException e) {}
+        try { Thread.sleep(2); } catch (InterruptedException ignored) {}
         Parcel parcel2 = parcelMapper.toEntity(request);
 
-        assertNotEquals(parcel1.getCode(), parcel2.getCode());
+        Assertions.assertNotEquals(parcel1.getCode(), parcel2.getCode());
     }
 
     @Test
@@ -82,8 +81,8 @@ class ParcelMapperTest {
         Parcel parcel = parcelMapper.toEntity(request);
 
         assertNotNull(parcel.getDeliveryOtp());
-        assertEquals(6, parcel.getDeliveryOtp().length());
-        assertTrue(parcel.getDeliveryOtp().matches("\\d{6}"));
+        Assertions.assertEquals(6, parcel.getDeliveryOtp().length());
+        Assertions.assertTrue(parcel.getDeliveryOtp().matches("\\d{6}"));
     }
 
     @Test
@@ -109,11 +108,11 @@ class ParcelMapperTest {
 
         parcelMapper.updateEntity(request, existingParcel);
 
-        assertEquals(ParcelStatus.DELIVERED, existingParcel.getStatus());
-        assertEquals("https://example.com/photo.jpg", existingParcel.getProofPhotoUrl());
-        assertEquals("123456", existingParcel.getDeliveryOtp());
-        assertEquals("Sender", existingParcel.getSenderName());
-        assertEquals("Receiver", existingParcel.getReceiverName());
+        Assertions.assertEquals(ParcelStatus.DELIVERED, existingParcel.getStatus());
+        Assertions.assertEquals("https://example.com/photo.jpg", existingParcel.getProofPhotoUrl());
+        Assertions.assertEquals("123456", existingParcel.getDeliveryOtp());
+        Assertions.assertEquals("Sender", existingParcel.getSenderName());
+        Assertions.assertEquals("Receiver", existingParcel.getReceiverName());
     }
 
     @Test
@@ -157,21 +156,21 @@ class ParcelMapperTest {
         ParcelResponse response = parcelMapper.toResponse(parcel);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("PCL-123456", response.code());
-        assertEquals("John Sender", response.senderName());
-        assertEquals("3001234567", response.senderPhone());
-        assertEquals("Jane Receiver", response.receiverName());
-        assertEquals("3009876543", response.receiverPhone());
-        assertEquals(new BigDecimal("35000"), response.price());
-        assertEquals("DELIVERED", response.status());
-        assertEquals("https://example.com/photo.jpg", response.proofPhotoUrl());
-        assertEquals("123456", response.deliveryOtp());
-        assertEquals(createdAt, response.createdAt());
-        assertEquals(deliveredAt, response.deliveredAt());
-        assertEquals(1L, response.fromStopId());
-        assertEquals(2L, response.toStopId());
-        assertEquals(3L, response.tripId());
+        Assertions.assertEquals(Long.valueOf(1L), response.id());
+        Assertions.assertEquals("PCL-123456", response.code());
+        Assertions.assertEquals("John Sender", response.senderName());
+        Assertions.assertEquals("3001234567", response.senderPhone());
+        Assertions.assertEquals("Jane Receiver", response.receiverName());
+        Assertions.assertEquals("3009876543", response.receiverPhone());
+        Assertions.assertEquals(new BigDecimal("35000"), response.price());
+        Assertions.assertEquals("DELIVERED", response.status());
+        Assertions.assertEquals("https://example.com/photo.jpg", response.proofPhotoUrl());
+        Assertions.assertEquals("123456", response.deliveryOtp());
+        Assertions.assertEquals(createdAt, response.createdAt());
+        Assertions.assertEquals(deliveredAt, response.deliveredAt());
+        Assertions.assertEquals(Long.valueOf(1L), response.fromStopId());
+        Assertions.assertEquals(Long.valueOf(2L), response.toStopId());
+        Assertions.assertEquals(Long.valueOf(3L), response.tripId());
     }
 
     @Test
@@ -195,7 +194,7 @@ class ParcelMapperTest {
 
             ParcelResponse response = parcelMapper.toResponse(parcel);
 
-            assertEquals(status.name(), response.status());
+            Assertions.assertEquals(status.name(), response.status());
         }
     }
 
@@ -265,8 +264,8 @@ class ParcelMapperTest {
 
         Parcel parcel = parcelMapper.toEntity(request);
 
-        assertEquals("3001234567", parcel.getSenderPhone());
-        assertEquals("3109876543", parcel.getReceiverPhone());
+        Assertions.assertEquals("3001234567", parcel.getSenderPhone());
+        Assertions.assertEquals("3109876543", parcel.getReceiverPhone());
     }
 
     @Test
@@ -286,7 +285,7 @@ class ParcelMapperTest {
             );
 
             Parcel parcel = parcelMapper.toEntity(request);
-            assertEquals(price, parcel.getPrice());
+            Assertions.assertEquals(price, parcel.getPrice());
         }
     }
 
@@ -320,20 +319,20 @@ class ParcelMapperTest {
 
         ParcelResponse response = parcelMapper.toResponse(parcel);
 
-        assertEquals(999L, response.id());
-        assertTrue(response.code().startsWith("PCL-"));
-        assertEquals("Complete Sender", response.senderName());
-        assertEquals("3001111111", response.senderPhone());
-        assertEquals("Complete Receiver", response.receiverName());
-        assertEquals("3002222222", response.receiverPhone());
-        assertEquals(new BigDecimal("99999.99"), response.price());
-        assertEquals("DELIVERED", response.status());
-        assertEquals("https://storage.example.com/proof-999.jpg", response.proofPhotoUrl());
+        Assertions.assertEquals(Long.valueOf(999L), response.id());
+        Assertions.assertTrue(response.code().startsWith("PCL-"));
+        Assertions.assertEquals("Complete Sender", response.senderName());
+        Assertions.assertEquals("3001111111", response.senderPhone());
+        Assertions.assertEquals("Complete Receiver", response.receiverName());
+        Assertions.assertEquals("3002222222", response.receiverPhone());
+        Assertions.assertEquals(new BigDecimal("99999.99"), response.price());
+        Assertions.assertEquals("DELIVERED", response.status());
+        Assertions.assertEquals("https://storage.example.com/proof-999.jpg", response.proofPhotoUrl());
         assertNotNull(response.deliveryOtp());
-        assertEquals(createdAt, response.createdAt());
-        assertEquals(deliveredAt, response.deliveredAt());
-        assertEquals(100L, response.fromStopId());
-        assertEquals(200L, response.toStopId());
-        assertEquals(300L, response.tripId());
+        Assertions.assertEquals(createdAt, response.createdAt());
+        Assertions.assertEquals(deliveredAt, response.deliveredAt());
+        Assertions.assertEquals(Long.valueOf(100L), response.fromStopId());
+        Assertions.assertEquals(Long.valueOf(200L), response.toStopId());
+        Assertions.assertEquals(Long.valueOf(300L), response.tripId());
     }
 }

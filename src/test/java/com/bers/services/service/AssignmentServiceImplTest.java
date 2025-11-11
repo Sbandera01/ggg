@@ -13,6 +13,7 @@ import com.bers.domain.repositories.TripRepository;
 import com.bers.domain.repositories.UserRepository;
 import com.bers.services.mappers.AssignmentMapper;
 import com.bers.services.service.serviceImple.AssignmentServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -111,7 +112,7 @@ class AssignmentServiceImplTest {
                 () -> assignmentService.createAssignment(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("not a DRIVER"));
+        Assertions.assertTrue(exception.getMessage().contains("not a DRIVER"));
         verify(assignmentRepository, never()).save(any());
     }
 
@@ -128,7 +129,7 @@ class AssignmentServiceImplTest {
                 () -> assignmentService.createAssignment(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("not a DISPATCHER"));
+        Assertions.assertTrue(exception.getMessage().contains("not a DISPATCHER"));
         verify(assignmentRepository, never()).save(any());
     }
 
@@ -145,7 +146,7 @@ class AssignmentServiceImplTest {
                 () -> assignmentService.createAssignment(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("already has an assignment"));
+        Assertions.assertTrue(exception.getMessage().contains("already has an assignment"));
         verify(assignmentRepository, never()).save(any());
     }
 
@@ -158,7 +159,7 @@ class AssignmentServiceImplTest {
         AssignmentResponse result = assignmentService.approveChecklist(1L);
 
         assertNotNull(result);
-        assertTrue(assignment.getChecklistOk());
+        Assertions.assertTrue(assignment.getChecklistOk());
         verify(assignmentRepository).save(assignment);
     }
 
@@ -169,6 +170,6 @@ class AssignmentServiceImplTest {
 
         boolean result = assignmentService.hasActiveAssignment(1L);
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
     }
 }

@@ -9,6 +9,7 @@ import com.bers.domain.repositories.StopRepository;
 import com.bers.services.mappers.RouteMapper;
 import com.bers.services.mappers.StopMapper;
 import com.bers.services.service.serviceImple.RouteServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -89,7 +90,7 @@ class RouteServiceImplTest {
         RouteResponse result = routeService.createRoute(createRequest);
 
         assertNotNull(result);
-        assertEquals("BOG-TUN", result.code());
+        Assertions.assertEquals("BOG-TUN", result.code());
         verify(routeRepository).existsByCode(createRequest.code());
         verify(routeRepository).save(any(Route.class));
         verify(routeMapper).toEntity(createRequest);
@@ -106,7 +107,7 @@ class RouteServiceImplTest {
                 () -> routeService.createRoute(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("Route code already exists"));
+        Assertions.assertTrue(exception.getMessage().contains("Route code already exists"));
         verify(routeRepository).existsByCode(createRequest.code());
         verify(routeRepository, never()).save(any(Route.class));
     }
@@ -135,7 +136,7 @@ class RouteServiceImplTest {
                 () -> routeService.updateRoute(1L, updateRequest)
         );
 
-        assertTrue(exception.getMessage().contains("Route not found"));
+        Assertions.assertTrue(exception.getMessage().contains("Route not found"));
         verify(routeRepository).findById(1L);
         verify(routeRepository, never()).save(any(Route.class));
     }
@@ -148,7 +149,7 @@ class RouteServiceImplTest {
         RouteResponse result = routeService.getRouteById(1L);
 
         assertNotNull(result);
-        assertEquals(1L, result.id());
+        Assertions.assertEquals(1L, result.id());
         verify(routeRepository).findById(1L);
         verify(routeMapper).toResponse(route);
     }
@@ -161,7 +162,7 @@ class RouteServiceImplTest {
         RouteResponse result = routeService.getRouteByCode("BOG-TUN");
 
         assertNotNull(result);
-        assertEquals("BOG-TUN", result.code());
+        Assertions.assertEquals("BOG-TUN", result.code());
         verify(routeRepository).findByCode("BOG-TUN");
     }
 
@@ -185,7 +186,7 @@ class RouteServiceImplTest {
         List<RouteResponse> result = routeService.getAllRoutes();
 
         assertNotNull(result);
-        assertEquals(2, result.size());
+        Assertions.assertEquals(2, result.size());
         verify(routeRepository).findAll();
         verify(routeMapper, times(2)).toResponse(any(Route.class));
     }
@@ -200,7 +201,7 @@ class RouteServiceImplTest {
         List<RouteResponse> result = routeService.searchRoutes("Bogotá", "Tunja");
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
         verify(routeRepository).findByOriginAndDestination("Bogotá", "Tunja");
     }
 
@@ -214,7 +215,7 @@ class RouteServiceImplTest {
         List<RouteResponse> result = routeService.searchRoutes("Bogotá", null);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
         verify(routeRepository).findByOriginContainingIgnoreCaseOrDestinationContainingIgnoreCase(
                 "Bogotá", "Bogotá");
     }
@@ -229,7 +230,7 @@ class RouteServiceImplTest {
         List<StopResponse> result = routeService.getStopsByRoute(1L);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
         verify(routeRepository).existsById(1L);
         verify(stopRepository).findByRouteIdOrderByOrderAsc(1L);
         verify(stopMapper, times(1)).toResponse(any(Stop.class));
@@ -245,7 +246,7 @@ class RouteServiceImplTest {
                 () -> routeService.getStopsByRoute(1L)
         );
 
-        assertTrue(exception.getMessage().contains("Route not found"));
+        Assertions.assertTrue(exception.getMessage().contains("Route not found"));
         verify(routeRepository).existsById(1L);
         verify(stopRepository, never()).findByRouteIdOrderByOrderAsc(anyLong());
     }
@@ -271,7 +272,7 @@ class RouteServiceImplTest {
                 () -> routeService.deleteRoute(1L)
         );
 
-        assertTrue(exception.getMessage().contains("Route not found"));
+        Assertions.assertTrue(exception.getMessage().contains("Route not found"));
         verify(routeRepository).existsById(1L);
         verify(routeRepository, never()).deleteById(anyLong());
     }
@@ -283,7 +284,7 @@ class RouteServiceImplTest {
 
         boolean result = routeService.existsByCode("BOG-TUN");
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
         verify(routeRepository).existsByCode("BOG-TUN");
     }
 }

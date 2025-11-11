@@ -1,4 +1,5 @@
 package com.bers.services.mappers;
+
 import com.bers.api.dtos.TripDtos.*;
 import com.bers.domain.entities.*;
 import org.mapstruct.*;
@@ -12,7 +13,7 @@ public interface TripMapper {
     @Mapping(target = "arrivalEta", source = "arrivalEta")
     @Mapping(target = "route", source = "routeId", qualifiedByName = "mapRoute")
     @Mapping(target = "bus", source = "busId", qualifiedByName = "mapBus")
-    @Mapping(target = "status", expression = "java(com.example.busconnect.domain.entities.enums.TripStatus.SCHEDULED)")
+    @Mapping(target = "status", expression = "java(com.bers.domain.entities.enums.TripStatus.SCHEDULED)")
     Trip toEntity(TripCreateRequest dto);
 
 

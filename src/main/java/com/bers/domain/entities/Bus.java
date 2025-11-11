@@ -32,10 +32,12 @@ public class Bus {
 
     @Type(JsonType.class)
     @Column(columnDefinition = "jsonb")
+    @Builder.Default
     private Map<String, Object> amenities = new HashMap<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
+    @Builder.Default
     private BusStatus status = BusStatus.ACTIVE;
 
     @Default

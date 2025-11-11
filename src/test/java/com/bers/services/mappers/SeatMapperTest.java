@@ -5,6 +5,7 @@ import com.bers.domain.entities.Bus;
 import com.bers.domain.entities.Seat;
 import com.bers.domain.entities.enums.BusStatus;
 import com.bers.domain.entities.enums.SeatType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,10 +37,10 @@ class SeatMapperTest {
         Seat seat = seatMapper.toEntity(request);
 
         assertNotNull(seat);
-        assertEquals("1A", seat.getNumber());
-        assertEquals(SeatType.STANDARD, seat.getType());
+        Assertions.assertEquals("1A", seat.getNumber());
+        Assertions.assertEquals(SeatType.STANDARD, seat.getType());
         assertNotNull(seat.getBus());
-        assertEquals(1L, seat.getBus().getId());
+        Assertions.assertEquals(1L, seat.getBus().getId());
         assertNull(seat.getId());
     }
 
@@ -58,8 +59,8 @@ class SeatMapperTest {
 
         seatMapper.updateEntity(request, existingSeat);
 
-        assertEquals(SeatType.PREFERENTIAL, existingSeat.getType());
-        assertEquals("1A", existingSeat.getNumber());
+        Assertions.assertEquals(SeatType.PREFERENTIAL, existingSeat.getType());
+        Assertions.assertEquals("1A", existingSeat.getNumber());
     }
 
     @Test
@@ -83,12 +84,12 @@ class SeatMapperTest {
         SeatResponse response = seatMapper.toResponse(seat);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("1A", response.number());
-        assertEquals("PREFERENTIAL", response.type());
-        assertEquals(1L, response.busId());
-        assertEquals("ABC123", response.busPlate());
-        assertEquals(40, response.busCapacity());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("1A", response.number());
+        Assertions.assertEquals("PREFERENTIAL", response.type());
+        Assertions.assertEquals(1L, response.busId());
+        Assertions.assertEquals("ABC123", response.busPlate());
+        Assertions.assertEquals(40, response.busCapacity());
     }
 
     @Test
@@ -112,8 +113,8 @@ class SeatMapperTest {
 
             SeatResponse response = seatMapper.toResponse(seat);
 
-            assertEquals(type, seat.getType());
-            assertEquals(type.name(), response.type());
+            Assertions.assertEquals(type, seat.getType());
+            Assertions.assertEquals(type.name(), response.type());
         }
     }
 
@@ -131,7 +132,7 @@ class SeatMapperTest {
 
             Seat seat = seatMapper.toEntity(request);
 
-            assertEquals(number, seat.getNumber());
+            Assertions.assertEquals(number, seat.getNumber());
         }
     }
 
@@ -148,7 +149,7 @@ class SeatMapperTest {
         Seat seat = seatMapper.toEntity(request);
 
         assertNotNull(seat.getBus());
-        assertEquals(busId, seat.getBus().getId());
+        Assertions.assertEquals(busId, seat.getBus().getId());
     }
 
     @Test
@@ -171,12 +172,12 @@ class SeatMapperTest {
 
         SeatResponse response = seatMapper.toResponse(seat);
 
-        assertEquals(5L, response.id());
-        assertEquals("VIP-1", response.number());
-        assertEquals("PREFERENTIAL", response.type());
-        assertEquals(10L, response.busId());
-        assertEquals("LUXURY001", response.busPlate());
-        assertEquals(45, response.busCapacity());
+        Assertions.assertEquals(5L, response.id());
+        Assertions.assertEquals("VIP-1", response.number());
+        Assertions.assertEquals("PREFERENTIAL", response.type());
+        Assertions.assertEquals(10L, response.busId());
+        Assertions.assertEquals("LUXURY001", response.busPlate());
+        Assertions.assertEquals(45, response.busCapacity());
     }
 
     @Test
@@ -190,7 +191,7 @@ class SeatMapperTest {
 
         Seat seat = seatMapper.toEntity(request);
 
-        assertEquals(SeatType.STANDARD, seat.getType());
+        Assertions.assertEquals(SeatType.STANDARD, seat.getType());
     }
 
     @Test
@@ -214,10 +215,10 @@ class SeatMapperTest {
 
         seatMapper.updateEntity(request, existingSeat);
 
-        assertEquals(SeatType.PREFERENTIAL, existingSeat.getType());
-        assertEquals("ORIGINAL_NUMBER", existingSeat.getNumber());
-        assertEquals(originalBus, existingSeat.getBus());
-        assertEquals(1L, existingSeat.getId());
+        Assertions.assertEquals(SeatType.PREFERENTIAL, existingSeat.getType());
+        Assertions.assertEquals("ORIGINAL_NUMBER", existingSeat.getNumber());
+        Assertions.assertEquals(originalBus, existingSeat.getBus());
+        Assertions.assertEquals(1L, existingSeat.getId());
     }
 
     @Test
@@ -240,11 +241,11 @@ class SeatMapperTest {
 
         SeatResponse response = seatMapper.toResponse(seat);
 
-        assertEquals(100L, response.id());
-        assertEquals("FULL-TEST-1", response.number());
-        assertEquals("PREFERENTIAL", response.type());
-        assertEquals(999L, response.busId());
-        assertEquals("TEST-PLATE", response.busPlate());
-        assertEquals(50, response.busCapacity());
+        Assertions.assertEquals(100L, response.id());
+        Assertions.assertEquals("FULL-TEST-1", response.number());
+        Assertions.assertEquals("PREFERENTIAL", response.type());
+        Assertions.assertEquals(999L, response.busId());
+        Assertions.assertEquals("TEST-PLATE", response.busPlate());
+        Assertions.assertEquals(50, response.busCapacity());
     }
 }

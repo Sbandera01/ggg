@@ -7,6 +7,7 @@ import com.bers.domain.repositories.RouteRepository;
 import com.bers.domain.repositories.StopRepository;
 import com.bers.services.mappers.StopMapper;
 import com.bers.services.service.serviceImple.StopServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -80,8 +81,8 @@ class StopServiceImplTest {
         StopResponse response = stopService.createStop(createRequest);
 
         assertNotNull(response);
-        assertEquals("Terminal Central", response.name());
-        assertEquals(1, response.order());
+        Assertions.assertEquals("Terminal Central", response.name());
+        Assertions.assertEquals(1, response.order());
         verify(routeRepository).findById(1L);
         verify(stopRepository).save(any(Stop.class));
     }
@@ -132,9 +133,9 @@ class StopServiceImplTest {
         StopResponse response = stopService.getStopById(1L);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("Terminal Central", response.name());
-        assertEquals("RC-001", response.routeCode());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("Terminal Central", response.name());
+        Assertions.assertEquals("RC-001", response.routeCode());
         verify(stopRepository).findById(1L);
     }
 
@@ -161,7 +162,7 @@ class StopServiceImplTest {
 
         List<StopResponse> responses = stopService.getAllStops();
 
-        assertEquals(2, responses.size());
+        Assertions.assertEquals(2, responses.size());
         verify(stopRepository).findAll();
     }
 
@@ -177,9 +178,9 @@ class StopServiceImplTest {
 
         List<StopResponse> responses = stopService.getStopsByRouteId(1L);
 
-        assertEquals(3, responses.size());
-        assertEquals(1, responses.get(0).order());
-        assertEquals(2, responses.get(1).order());
+        Assertions.assertEquals(3, responses.size());
+        Assertions.assertEquals(1, responses.get(0).order());
+        Assertions.assertEquals(2, responses.get(1).order());
         verify(stopRepository).findByRouteIdOrderByOrderAsc(1L);
     }
 
@@ -208,7 +209,7 @@ class StopServiceImplTest {
 
         List<StopResponse> responses = stopService.searchStopsByName("terminal");
 
-        assertEquals(2, responses.size());
+        Assertions.assertEquals(2, responses.size());
         verify(stopRepository).findByNameContainingIgnoreCase("terminal");
     }
 
@@ -261,7 +262,7 @@ class StopServiceImplTest {
                 () -> stopService.validateStopOrder(1L, 1)
         );
 
-        assertTrue(exception.getMessage().contains("already exists"));
+        Assertions.assertTrue(exception.getMessage().contains("already exists"));
         verify(stopRepository).findByRouteIdOrderByOrderAsc(1L);
     }
 }

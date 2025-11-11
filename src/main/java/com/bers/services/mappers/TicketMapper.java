@@ -1,4 +1,5 @@
 package com.bers.services.mappers;
+
 import com.bers.api.dtos.TicketDtos.*;
 import com.bers.domain.entities.*;
 import org.mapstruct.*;
@@ -13,9 +14,9 @@ public interface TicketMapper {
     @Mapping(target = "passenger", source = "passengerId", qualifiedByName = "mapUser")
     @Mapping(target = "fromStop", source = "fromStopId", qualifiedByName = "mapStop")
     @Mapping(target = "toStop", source = "toStopId", qualifiedByName = "mapStop")
-    @Mapping(target = "status", expression = "java(com.example.busconnect.domain.entities.enums.TicketStatus.SOLD)")
+    @Mapping(target = "status", expression = "java(com.bers.domain.entities.enums.TicketStatus.SOLD)")
     @Mapping(target = "price", ignore = true)
-    @Mapping(target = "qrCode", expression = "java(generateQRCode(dtos))")
+    @Mapping(target = "qrCode", expression = "java(generateQRCode(dto))")
     @Mapping(target = "passengerType", ignore = true)
     @Mapping(target = "discountAmount", ignore = true)
     @Mapping(target = "cancelledAt", ignore = true)

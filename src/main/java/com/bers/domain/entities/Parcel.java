@@ -40,6 +40,7 @@ public class Parcel {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
+    @Builder.Default
     private ParcelStatus status = ParcelStatus.CREATED;
 
     @Column(length = 255)

@@ -8,6 +8,7 @@ import com.bers.domain.repositories.BaggageRepository;
 import com.bers.domain.repositories.TicketRepository;
 import com.bers.services.mappers.BaggageMapper;
 import com.bers.services.service.serviceImple.BaggageServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -65,7 +65,7 @@ class BaggageServiceImplTest {
 
         assertNotNull(result);
         assertNotNull(result.tagCode());
-        assertTrue(result.tagCode().startsWith("BAG-"));
+        Assertions.assertTrue(result.tagCode().startsWith("BAG-"));
         verify(baggageRepository).save(any(Baggage.class));
         verify(baggageMapper).toEntity(createRequest);
         verify(baggageMapper).toResponse(any(Baggage.class));
@@ -78,7 +78,7 @@ class BaggageServiceImplTest {
 
         BigDecimal fee = baggageService.calculateBaggageFee(weight);
 
-        assertEquals(BigDecimal.ZERO, fee);
+        Assertions.assertEquals(BigDecimal.ZERO, fee);
     }
 
     @Test
@@ -88,7 +88,7 @@ class BaggageServiceImplTest {
 
         BigDecimal fee = baggageService.calculateBaggageFee(weight);
 
-        assertEquals(new BigDecimal("10000.0"), fee);
+        Assertions.assertEquals(new BigDecimal("10000.0"), fee);
     }
 
     @Test
@@ -99,6 +99,6 @@ class BaggageServiceImplTest {
 
         BigDecimal total = baggageService.getTotalWeightByTrip(1L);
 
-        assertEquals(new BigDecimal("150.5"), total);
+        Assertions.assertEquals(new BigDecimal("150.5"), total);
     }
 }

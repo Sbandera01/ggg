@@ -5,6 +5,7 @@ import com.bers.domain.entities.Bus;
 import com.bers.domain.entities.Seat;
 import com.bers.domain.entities.enums.BusStatus;
 import com.bers.domain.entities.enums.SeatType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,12 +46,12 @@ class BusMapperTest {
         Bus bus = busMapper.toEntity(request);
 
         assertNotNull(bus);
-        assertEquals("ABC123", bus.getPlate());
-        assertEquals(45, bus.getCapacity());
-        assertEquals(BusStatus.ACTIVE, bus.getStatus());
+        Assertions.assertEquals("ABC123", bus.getPlate());
+        Assertions.assertEquals(45, bus.getCapacity());
+        Assertions.assertEquals(BusStatus.ACTIVE, bus.getStatus());
         assertNotNull(bus.getAmenities());
-        assertEquals(3, bus.getAmenities().size());
-        assertTrue((Boolean) bus.getAmenities().get("wifi"));
+        Assertions.assertEquals(3, bus.getAmenities().size());
+        Assertions.assertTrue((Boolean) bus.getAmenities().get("wifi"));
         assertNull(bus.getId());
     }
 
@@ -80,11 +81,11 @@ class BusMapperTest {
 
         busMapper.updateEntity(request, existingBus);
 
-        assertEquals(50, existingBus.getCapacity());
-        assertEquals(BusStatus.MAINTENANCE, existingBus.getStatus());
-        assertEquals(2, existingBus.getAmenities().size());
-        assertTrue((Boolean) existingBus.getAmenities().get("wifi"));
-        assertEquals("OLD123", existingBus.getPlate());
+        Assertions.assertEquals(50, existingBus.getCapacity());
+        Assertions.assertEquals(BusStatus.MAINTENANCE, existingBus.getStatus());
+        Assertions.assertEquals(2, existingBus.getAmenities().size());
+        Assertions.assertTrue((Boolean) existingBus.getAmenities().get("wifi"));
+        Assertions.assertEquals("OLD123", existingBus.getPlate());
     }
 
     @Test
@@ -105,10 +106,10 @@ class BusMapperTest {
         BusResponse response = busMapper.toResponse(bus);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("XYZ789", response.plate());
-        assertEquals(40, response.capacity());
-        assertEquals("ACTIVE", response.status());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("XYZ789", response.plate());
+        Assertions.assertEquals(40, response.capacity());
+        Assertions.assertEquals("ACTIVE", response.status());
     }
 
     @Test
@@ -138,12 +139,12 @@ class BusMapperTest {
         BusWithSeatsResponse response = busMapper.toResponseWithSeats(bus, availableSeats);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("ABC123", response.plate());
-        assertEquals(45, response.capacity());
-        assertEquals("ACTIVE", response.status());
-        assertEquals(45, response.totalSeats());
-        assertEquals(30, response.availableSeats());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("ABC123", response.plate());
+        Assertions.assertEquals(45, response.capacity());
+        Assertions.assertEquals("ACTIVE", response.status());
+        Assertions.assertEquals(45, response.totalSeats());
+        Assertions.assertEquals(30, response.availableSeats());
     }
 
     @Test
@@ -160,7 +161,7 @@ class BusMapperTest {
 
         assertNotNull(bus);
         assertNotNull(bus.getAmenities());
-        assertTrue(bus.getAmenities().isEmpty());
+        Assertions.assertTrue(bus.getAmenities().isEmpty());
     }
 
     @Test
@@ -193,8 +194,8 @@ class BusMapperTest {
             bus.setId(1L);
             BusResponse response = busMapper.toResponse(bus);
 
-            assertEquals(status, bus.getStatus());
-            assertEquals(status.name(), response.status());
+            Assertions.assertEquals(status, bus.getStatus());
+            Assertions.assertEquals(status.name(), response.status());
         }
     }
 
@@ -219,8 +220,8 @@ class BusMapperTest {
 
         assertNotNull(bus);
         assertNotNull(bus.getAmenities());
-        assertEquals(5, bus.getAmenities().size());
-        assertTrue((Boolean) bus.getAmenities().get("wifi"));
+        Assertions.assertEquals(5, bus.getAmenities().size());
+        Assertions.assertTrue((Boolean) bus.getAmenities().get("wifi"));
         assertNotNull(bus.getAmenities().get("seats"));
         assertNotNull(bus.getAmenities().get("entertainment"));
     }
@@ -242,8 +243,8 @@ class BusMapperTest {
         BusWithSeatsResponse response = busMapper.toResponseWithSeats(bus, availableSeats);
 
         assertNotNull(response);
-        assertEquals(0, response.totalSeats());
-        assertEquals(45, response.availableSeats());
+        Assertions.assertEquals(0, response.totalSeats());
+        Assertions.assertEquals(45, response.availableSeats());
     }
 
     @Test
@@ -272,9 +273,9 @@ class BusMapperTest {
         bus.setId(999L);
         BusResponse response = busMapper.toResponse(bus);
 
-        assertEquals(999L, response.id());
-        assertEquals("FULL123", response.plate());
-        assertEquals(42, response.capacity());
-        assertEquals("MAINTENANCE", response.status());
+        Assertions.assertEquals(999L, response.id());
+        Assertions.assertEquals("FULL123", response.plate());
+        Assertions.assertEquals(42, response.capacity());
+        Assertions.assertEquals("MAINTENANCE", response.status());
     }
 }

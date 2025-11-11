@@ -1,4 +1,5 @@
 package com.bers.services.mappers;
+
 import com.bers.api.dtos.ConfigDtos.*;
 import com.bers.domain.entities.Config;
 import org.mapstruct.*;

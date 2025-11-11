@@ -3,6 +3,7 @@ package com.bers.services.service.serviceImple;
 import com.bers.api.dtos.TicketDtos.*;
 import com.bers.domain.entities.*;
 import com.bers.domain.entities.enums.CancellationPolicy;
+import com.bers.domain.entities.enums.HoldStatus;
 import com.bers.domain.entities.enums.PassengerType;
 import com.bers.domain.entities.enums.TicketStatus;
 import com.bers.domain.repositories.*;
@@ -269,7 +270,7 @@ public class TicketServiceImpl implements TicketService {
 
         // Verificar si hay un hold activo
         boolean holdExists = seatHoldRepository.existsByTripIdAndSeatNumberAndStatus(
-                tripId, seatNumber, com.example.busconnect.domine.entities.enums.HoldStatus.HOLD);
+                tripId, seatNumber, HoldStatus.HOLD);
 
         return !ticketExists && !holdExists;
     }

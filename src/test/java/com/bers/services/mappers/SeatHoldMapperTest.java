@@ -3,6 +3,7 @@ package com.bers.services.mappers;
 import com.bers.api.dtos.SeatHoldDtos.*;
 import com.bers.domain.entities.*;
 import com.bers.domain.entities.enums.HoldStatus;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,8 +36,8 @@ class SeatHoldMapperTest {
         SeatHold seatHold = seatHoldMapper.toEntity(request);
 
         assertNotNull(seatHold);
-        assertEquals("1A", seatHold.getSeatNumber());
-        assertEquals(HoldStatus.HOLD, seatHold.getStatus());
+        Assertions.assertEquals("1A", seatHold.getSeatNumber());
+        Assertions.assertEquals(HoldStatus.HOLD, seatHold.getStatus());
         assertNull(seatHold.getId());
         assertNull(seatHold.getUser());
         assertNull(seatHold.getExpiresAt());
@@ -58,8 +59,8 @@ class SeatHoldMapperTest {
 
         seatHoldMapper.updateEntity(request, existingSeatHold);
 
-        assertEquals(HoldStatus.EXPIRED, existingSeatHold.getStatus());
-        assertEquals("1A", existingSeatHold.getSeatNumber());
+        Assertions.assertEquals(HoldStatus.EXPIRED, existingSeatHold.getStatus());
+        Assertions.assertEquals("1A", existingSeatHold.getSeatNumber());
     }
 
     @Test
@@ -98,18 +99,18 @@ class SeatHoldMapperTest {
         SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("1A", response.seatNumber());
-        assertEquals(expiresAt, response.expiresAt());
-        assertEquals("HOLD", response.status());
-        assertEquals(createdAt, response.createdAt());
-        assertEquals(1L, response.tripId());
-        assertEquals(2L, response.userId());
-        assertEquals("2025-12-25", response.tripDate());
-        assertEquals("08:00", response.tripTime());
-        assertEquals("Bogotá - Tunja", response.routeName());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("1A", response.seatNumber());
+        Assertions.assertEquals(expiresAt, response.expiresAt());
+        Assertions.assertEquals("HOLD", response.status());
+        Assertions.assertEquals(createdAt, response.createdAt());
+        Assertions.assertEquals(1L, response.tripId());
+        Assertions.assertEquals(2L, response.userId());
+        Assertions.assertEquals("2025-12-25", response.tripDate());
+        Assertions.assertEquals("08:00", response.tripTime());
+        Assertions.assertEquals("Bogotá - Tunja", response.routeName());
         assertNotNull(response.minutesLeft());
-        assertTrue(response.minutesLeft() >= 0);
+        Assertions.assertTrue(response.minutesLeft() >= 0);
     }
 
     @Test
@@ -134,7 +135,7 @@ class SeatHoldMapperTest {
         SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
         assertNotNull(response.minutesLeft());
-        assertTrue(response.minutesLeft() >= 7 && response.minutesLeft() <= 8);
+        Assertions.assertTrue(response.minutesLeft() >= 7 && response.minutesLeft() <= 8);
     }
 
     @Test
@@ -158,7 +159,7 @@ class SeatHoldMapperTest {
 
         SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
-        assertEquals(0, response.minutesLeft());
+        Assertions.assertEquals(0, response.minutesLeft());
     }
 
     @Test
@@ -203,7 +204,7 @@ class SeatHoldMapperTest {
 
             SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
-            assertEquals(status.name(), response.status());
+            Assertions.assertEquals(status.name(), response.status());
         }
     }
 
@@ -229,8 +230,8 @@ class SeatHoldMapperTest {
 
         SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
-        assertEquals("2025-03-15", response.tripDate());
-        assertEquals("16:45", response.tripTime());
+        Assertions.assertEquals("2025-03-15", response.tripDate());
+        Assertions.assertEquals("16:45", response.tripTime());
     }
 
     @Test
@@ -244,7 +245,7 @@ class SeatHoldMapperTest {
             );
 
             SeatHold seatHold = seatHoldMapper.toEntity(request);
-            assertEquals(seatNumber, seatHold.getSeatNumber());
+            Assertions.assertEquals(seatNumber, seatHold.getSeatNumber());
         }
     }
 
@@ -273,16 +274,16 @@ class SeatHoldMapperTest {
 
         SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
-        assertEquals(999L, response.id());
-        assertEquals("VIP-10", response.seatNumber());
-        assertEquals(expiresAt, response.expiresAt());
-        assertEquals("HOLD", response.status());
-        assertEquals(createdAt, response.createdAt());
-        assertEquals(100L, response.tripId());
-        assertEquals(500L, response.userId());
-        assertEquals("2025-12-31", response.tripDate());
-        assertEquals("23:59", response.tripTime());
-        assertEquals("New Year Route", response.routeName());
+        Assertions.assertEquals(999L, response.id());
+        Assertions.assertEquals("VIP-10", response.seatNumber());
+        Assertions.assertEquals(expiresAt, response.expiresAt());
+        Assertions.assertEquals("HOLD", response.status());
+        Assertions.assertEquals(createdAt, response.createdAt());
+        Assertions.assertEquals(100L, response.tripId());
+        Assertions.assertEquals(500L, response.userId());
+        Assertions.assertEquals("2025-12-31", response.tripDate());
+        Assertions.assertEquals("23:59", response.tripTime());
+        Assertions.assertEquals("New Year Route", response.routeName());
         assertNotNull(response.minutesLeft());
     }
 
@@ -308,6 +309,6 @@ class SeatHoldMapperTest {
         SeatHoldResponse response = seatHoldMapper.toResponse(seatHold);
 
         assertNotNull(response.minutesLeft());
-        assertTrue(response.minutesLeft() >= 9 && response.minutesLeft() <= 10);
+        Assertions.assertTrue(response.minutesLeft() >= 9 && response.minutesLeft() <= 10);
     }
 }

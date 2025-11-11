@@ -6,9 +6,8 @@ import com.bers.domain.entities.Incident;
 import com.bers.domain.entities.User;
 import com.bers.domain.entities.enums.EntityType;
 import com.bers.domain.entities.enums.IncidentType;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
@@ -39,10 +38,10 @@ class IncidentMapperTest {
         Incident incident = incidentMapper.toEntity(request);
 
         assertNotNull(incident);
-        assertEquals(EntityType.TRIP, incident.getEntityType());
-        assertEquals(1L, incident.getEntityId());
-        assertEquals(IncidentType.VEHICLE, incident.getType());
-        assertEquals("Tire puncture on route", incident.getNote());
+        Assertions.assertEquals(EntityType.TRIP, incident.getEntityType());
+        Assertions.assertEquals(1L, incident.getEntityId());
+        Assertions.assertEquals(IncidentType.VEHICLE, incident.getType());
+        Assertions.assertEquals("Tire puncture on route", incident.getNote());
         assertNull(incident.getId());
     }
 
@@ -65,14 +64,14 @@ class IncidentMapperTest {
         IncidentResponse response = incidentMapper.toResponse(incident);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("PARCEL", response.entityType());
-        assertEquals(5L, response.entityId());
-        assertEquals("DELIVERY_FAIL", response.type());
-        assertEquals("Receiver not available", response.note());
-        assertEquals(2L, response.reportedBy());
-        assertEquals("Reporter User", response.reportedByName());
-        assertEquals(createdAt, response.createdAt());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("PARCEL", response.entityType());
+        Assertions.assertEquals(5L, response.entityId());
+        Assertions.assertEquals("DELIVERY_FAIL", response.type());
+        Assertions.assertEquals("Receiver not available", response.note());
+        Assertions.assertEquals(2L, response.reportedBy());
+        Assertions.assertEquals("Reporter User", response.reportedByName());
+        Assertions.assertEquals(createdAt, response.createdAt());
     }
 
     @Test
@@ -91,7 +90,7 @@ class IncidentMapperTest {
 
             IncidentResponse response = incidentMapper.toResponse(incident);
 
-            assertEquals(type.name(), response.type());
+            Assertions.assertEquals(type.name(), response.type());
         }
     }
 
@@ -111,7 +110,7 @@ class IncidentMapperTest {
 
             IncidentResponse response = incidentMapper.toResponse(incident);
 
-            assertEquals(entityType.name(), response.entityType());
+            Assertions.assertEquals(entityType.name(), response.entityType());
         }
     }
 }

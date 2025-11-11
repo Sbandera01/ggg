@@ -1,4 +1,5 @@
 package com.bers.services.mappers;
+
 import com.bers.api.dtos.StopDtos.*;
 import com.bers.domain.entities.*;
 import org.mapstruct.*;

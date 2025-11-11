@@ -11,6 +11,7 @@ import com.bers.domain.repositories.RouteRepository;
 import com.bers.domain.repositories.StopRepository;
 import com.bers.services.mappers.FareRuleMapper;
 import com.bers.services.service.serviceImple.FareRuleServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -80,7 +81,7 @@ class FareRuleServiceImplTest {
         FareRuleResponse result = fareRuleService.createFareRule(createRequest);
 
         assertNotNull(result);
-        assertEquals(new BigDecimal("50000"), result.basePrice());
+        Assertions.assertEquals(new BigDecimal("50000"), result.basePrice());
         verify(fareRuleRepository).save(any(FareRule.class));
         verify(fareRuleMapper).toEntity(createRequest);
         verify(fareRuleMapper).toResponse(any(FareRule.class));
@@ -99,7 +100,7 @@ class FareRuleServiceImplTest {
                 () -> fareRuleService.createFareRule(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("Invalid stop sequence"));
+        Assertions.assertTrue(exception.getMessage().contains("Invalid stop sequence"));
         verify(fareRuleRepository, never()).save(any());
     }
 
@@ -111,8 +112,8 @@ class FareRuleServiceImplTest {
         BigDecimal result = fareRuleService.calculateDynamicPrice(1L, 0.85);
 
         assertNotNull(result);
-        assertTrue(result.compareTo(new BigDecimal("50000")) > 0);
-        assertEquals(new BigDecimal("65000.00"), result);
+        Assertions.assertTrue(result.compareTo(new BigDecimal("50000")) > 0);
+        Assertions.assertEquals(new BigDecimal("65000.00"), result);
     }
 
     @Test
@@ -123,8 +124,8 @@ class FareRuleServiceImplTest {
         BigDecimal result = fareRuleService.calculateDynamicPrice(1L, 0.25);
 
         assertNotNull(result);
-        assertTrue(result.compareTo(new BigDecimal("50000")) < 0);
-        assertEquals(new BigDecimal("42500.00"), result);
+        Assertions.assertTrue(result.compareTo(new BigDecimal("50000")) < 0);
+        Assertions.assertEquals(new BigDecimal("42500.00"), result);
     }
 
     @Test
@@ -135,7 +136,7 @@ class FareRuleServiceImplTest {
 
         BigDecimal result = fareRuleService.calculateDynamicPrice(1L, 0.9);
 
-        assertEquals(new BigDecimal("50000"), result);
+        Assertions.assertEquals(new BigDecimal("50000"), result);
     }
 
     @Test
@@ -148,7 +149,7 @@ class FareRuleServiceImplTest {
         List<FareRuleResponse> result = fareRuleService.getDynamicPricingRules(1L);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
         verify(fareRuleMapper, times(1)).toResponse(any(FareRule.class));
     }
 }

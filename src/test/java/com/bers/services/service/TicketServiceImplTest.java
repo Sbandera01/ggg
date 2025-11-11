@@ -6,6 +6,7 @@ import com.bers.domain.entities.enums.*;
 import com.bers.domain.repositories.*;
 import com.bers.services.mappers.TicketMapper;
 import com.bers.services.service.serviceImple.TicketServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -101,7 +102,7 @@ class TicketServiceImplTest {
         TicketResponse result = ticketService.createTicket(createRequest);
 
         assertNotNull(result);
-        assertEquals("1A", result.seatNumber());
+        Assertions.assertEquals("1A", result.seatNumber());
         verify(ticketRepository).save(any(Ticket.class));
         verify(ticketMapper).toEntity(createRequest);
         verify(ticketMapper).toResponse(any(Ticket.class));
@@ -122,7 +123,7 @@ class TicketServiceImplTest {
                 () -> ticketService.createTicket(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("not available"));
+        Assertions.assertTrue(exception.getMessage().contains("not available"));
         verify(ticketRepository, never()).save(any());
     }
 
@@ -140,7 +141,7 @@ class TicketServiceImplTest {
                 () -> ticketService.createTicket(createRequest)
         );
 
-        assertTrue(exception.getMessage().contains("Invalid stop sequence"));
+        Assertions.assertTrue(exception.getMessage().contains("Invalid stop sequence"));
         verify(ticketRepository, never()).save(any());
     }
 
@@ -153,7 +154,7 @@ class TicketServiceImplTest {
         TicketResponse result = ticketService.cancelTicket(1L);
 
         assertNotNull(result);
-        assertEquals(TicketStatus.CANCELLED, ticket.getStatus());
+        Assertions.assertEquals(TicketStatus.CANCELLED, ticket.getStatus());
         verify(ticketRepository).save(ticket);
     }
 
@@ -166,7 +167,7 @@ class TicketServiceImplTest {
         TicketResponse result = ticketService.markAsNoShow(1L);
 
         assertNotNull(result);
-        assertEquals(TicketStatus.NO_SHOW, ticket.getStatus());
+        Assertions.assertEquals(TicketStatus.NO_SHOW, ticket.getStatus());
     }
 
     @Test
@@ -178,7 +179,7 @@ class TicketServiceImplTest {
 
         boolean result = ticketService.isSeatAvailable(1L, "1A");
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
     }
 
     @Test

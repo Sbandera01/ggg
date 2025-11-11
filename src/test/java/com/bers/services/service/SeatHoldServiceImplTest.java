@@ -6,6 +6,7 @@ import com.bers.domain.entities.enums.*;
 import com.bers.domain.repositories.*;
 import com.bers.services.mappers.SeatHoldMapper;
 import com.bers.services.service.serviceImple.SeatHoldServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -80,7 +81,7 @@ class SeatHoldServiceImplTest {
         SeatHoldResponse result = seatHoldService.createSeatHold(createRequest, 1L);
 
         assertNotNull(result);
-        assertEquals("1A", result.seatNumber());
+        Assertions.assertEquals("1A", result.seatNumber());
         verify(seatHoldRepository).save(any(SeatHold.class));
         verify(seatHoldMapper).toEntity(createRequest);
         verify(seatHoldMapper).toResponse(any(SeatHold.class));
@@ -99,7 +100,7 @@ class SeatHoldServiceImplTest {
                 () -> seatHoldService.createSeatHold(createRequest, 1L)
         );
 
-        assertTrue(exception.getMessage().contains("already held"));
+        Assertions.assertTrue(exception.getMessage().contains("already held"));
         verify(seatHoldRepository, never()).save(any());
     }
 
@@ -115,7 +116,7 @@ class SeatHoldServiceImplTest {
         verify(seatHoldRepository).findExpiredHolds(any(LocalDateTime.class));
         verify(seatHoldRepository, times(2)).save(any(SeatHold.class));
         expiredHolds.forEach(hold ->
-                assertEquals(HoldStatus.EXPIRED, hold.getStatus())
+                Assertions.assertEquals(HoldStatus.EXPIRED, hold.getStatus())
         );
     }
 
@@ -127,7 +128,7 @@ class SeatHoldServiceImplTest {
 
         seatHoldService.releaseSeatHold(1L);
 
-        assertEquals(HoldStatus.EXPIRED, seatHold.getStatus());
+        Assertions.assertEquals(HoldStatus.EXPIRED, seatHold.getStatus());
         verify(seatHoldRepository).save(seatHold);
     }
 
@@ -139,7 +140,7 @@ class SeatHoldServiceImplTest {
 
         seatHoldService.convertHoldToTicket(1L);
 
-        assertEquals(HoldStatus.CONVERTED, seatHold.getStatus());
+        Assertions.assertEquals(HoldStatus.CONVERTED, seatHold.getStatus());
         verify(seatHoldRepository).save(seatHold);
     }
 
@@ -154,7 +155,7 @@ class SeatHoldServiceImplTest {
                 () -> seatHoldService.releaseSeatHold(1L)
         );
 
-        assertTrue(exception.getMessage().contains("Can only release active seatHolds"));
+        Assertions.assertTrue(exception.getMessage().contains("Can only release active seatHolds"));
         verify(seatHoldRepository, never()).save(any());
     }
 
@@ -166,6 +167,6 @@ class SeatHoldServiceImplTest {
 
         boolean result = seatHoldService.isSeatHeld(1L, "1A");
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
     }
 }

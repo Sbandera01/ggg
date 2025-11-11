@@ -10,6 +10,7 @@ import com.bers.domain.repositories.IncidentRepository;
 import com.bers.domain.repositories.UserRepository;
 import com.bers.services.mappers.IncidentMapper;
 import com.bers.services.service.serviceImple.IncidentServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,7 +76,7 @@ class IncidentServiceImplTest {
         IncidentResponse result = incidentService.createIncident(createRequest);
 
         assertNotNull(result);
-        assertEquals("Tire issue", result.note());
+        Assertions.assertEquals("Tire issue", result.note());
         verify(incidentRepository).save(any(Incident.class));
         verify(incidentMapper).toEntity(createRequest);
         verify(incidentMapper).toResponse(any(Incident.class));
@@ -92,7 +93,7 @@ class IncidentServiceImplTest {
                 .getIncidentsByEntityTypeAndId(EntityType.TRIP, 1L);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        Assertions.assertEquals(1, result.size());
         verify(incidentMapper, times(1)).toResponse(any(Incident.class));
     }
 
@@ -106,6 +107,6 @@ class IncidentServiceImplTest {
                 IncidentType.VEHICLE, LocalDateTime.now().minusDays(7)
         );
 
-        assertEquals(5L, count);
+        Assertions.assertEquals(5L, count);
     }
 }

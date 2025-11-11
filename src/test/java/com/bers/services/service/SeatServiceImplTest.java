@@ -9,6 +9,7 @@ import com.bers.domain.repositories.BusRepository;
 import com.bers.domain.repositories.SeatRepository;
 import com.bers.services.mappers.SeatMapper;
 import com.bers.services.service.serviceImple.SeatServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,8 +76,8 @@ class SeatServiceImplTest {
         SeatResponse response = seatService.createSeat(createRequest);
 
         assertNotNull(response);
-        assertEquals("A1", response.number());
-        assertEquals(1L, response.busId());
+        Assertions.assertEquals("A1", response.number());
+        Assertions.assertEquals(1L, response.busId());
         verify(busRepository).findById(1L);
         verify(seatRepository).save(any(Seat.class));
     }
@@ -147,8 +148,8 @@ class SeatServiceImplTest {
         SeatResponse response = seatService.getSeatById(1L);
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("A1", response.number());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("A1", response.number());
         verify(seatRepository).findById(1L);
     }
 
@@ -160,7 +161,7 @@ class SeatServiceImplTest {
         SeatResponse response = seatService.getSeatByBusAndNumber(1L, "A1");
 
         assertNotNull(response);
-        assertEquals("A1", response.number());
+        Assertions.assertEquals("A1", response.number());
         verify(seatRepository).findByBusIdAndNumber(1L, "A1");
     }
 
@@ -172,7 +173,7 @@ class SeatServiceImplTest {
 
         List<SeatResponse> responses = seatService.getAllSeats();
 
-        assertEquals(2, responses.size());
+        Assertions.assertEquals(2, responses.size());
         verify(seatRepository).findAll();
     }
 
@@ -185,7 +186,7 @@ class SeatServiceImplTest {
 
         List<SeatResponse> responses = seatService.getSeatsByBusId(1L);
 
-        assertEquals(2, responses.size());
+        Assertions.assertEquals(2, responses.size());
         verify(seatRepository).findByBusIdOrderByNumberAsc(1L);
     }
 
@@ -208,7 +209,7 @@ class SeatServiceImplTest {
 
         List<SeatResponse> responses = seatService.getSeatsByBusIdAndType(1L, SeatType.PREFERENTIAL);
 
-        assertEquals(1, responses.size());
+        Assertions.assertEquals(1, responses.size());
         verify(seatRepository).findByBusIdAndType(1L, SeatType.PREFERENTIAL);
     }
 
@@ -236,7 +237,7 @@ class SeatServiceImplTest {
     void shouldCountSeatsByBus() {
         when(seatRepository.countByBusId(1L)).thenReturn(25L);
         long count = seatService.countSeatsByBus(1L);
-        assertEquals(25L, count);
+        Assertions.assertEquals(25L, count);
         verify(seatRepository).countByBusId(1L);
     }
 }

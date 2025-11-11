@@ -4,6 +4,7 @@ import com.bers.api.dtos.UserDtos.*;
 import com.bers.domain.entities.User;
 import com.bers.domain.entities.enums.UserRole;
 import com.bers.domain.entities.enums.UserStatus;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,10 +39,10 @@ class UserMapperTest {
         );
         User user = userMapper.toEntity(request);
         assertNotNull(user);
-        assertEquals("John Doe", user.getUsername());
-        assertEquals("john.doe@example.com", user.getEmail());
-        assertEquals("3001234567", user.getPhone());
-        assertEquals(UserRole.PASSENGER, user.getRole());
+        Assertions.assertEquals("John Doe", user.getUsername());
+        Assertions.assertEquals("john.doe@example.com", user.getEmail());
+        Assertions.assertEquals("3001234567", user.getPhone());
+        Assertions.assertEquals(UserRole.PASSENGER, user.getRole());
         assertNull(user.getId());
         assertNull(user.getPasswordHash());
         assertNotNull(user.getCreateAt());
@@ -68,12 +69,12 @@ class UserMapperTest {
         );
         userMapper.updateEntity(request, existingUser);
 
-        assertEquals("New Name", existingUser.getUsername());
-        assertEquals("3001111111", existingUser.getPhone());
-        assertEquals(UserStatus.INACTIVE, existingUser.getStatus());
+        Assertions.assertEquals("New Name", existingUser.getUsername());
+        Assertions.assertEquals("3001111111", existingUser.getPhone());
+        Assertions.assertEquals(UserStatus.INACTIVE, existingUser.getStatus());
 
-        assertEquals("old@example.com", existingUser.getEmail());
-        assertEquals(UserRole.PASSENGER, existingUser.getRole());
+        Assertions.assertEquals("old@example.com", existingUser.getEmail());
+        Assertions.assertEquals(UserRole.PASSENGER, existingUser.getRole());
     }
 
     @Test
@@ -96,13 +97,13 @@ class UserMapperTest {
 
 
         assertNotNull(response);
-        assertEquals(1L, response.id());
-        assertEquals("John Doe", response.username());
-        assertEquals("john.doe@example.com", response.email());
-        assertEquals("3001234567", response.phone());
-        assertEquals("CLERK", response.role());
-        assertEquals("ACTIVE", response.status());
-        assertEquals(now, response.createAt());
+        Assertions.assertEquals(1L, response.id());
+        Assertions.assertEquals("John Doe", response.username());
+        Assertions.assertEquals("john.doe@example.com", response.email());
+        Assertions.assertEquals("3001234567", response.phone());
+        Assertions.assertEquals("CLERK", response.role());
+        Assertions.assertEquals("ACTIVE", response.status());
+        Assertions.assertEquals(now, response.createAt());
     }
 
     @Test
@@ -141,14 +142,14 @@ class UserMapperTest {
             );
 
             User user = userMapper.toEntity(request);
-            assertEquals(role, user.getRole());
+            Assertions.assertEquals(role, user.getRole());
 
             user.setId(1L);
             user.setCreateAt(LocalDateTime.now());
             user.setPasswordHash("hash");
 
             UserResponse response = userMapper.toResponse(user);
-            assertEquals(role.name(), response.role());
+            Assertions.assertEquals(role.name(), response.role());
         }
     }
 
@@ -168,7 +169,7 @@ class UserMapperTest {
                     .build();
 
             UserResponse response = userMapper.toResponse(user);
-            assertEquals(status.name(), response.status());
+            Assertions.assertEquals(status.name(), response.status());
         }
     }
 }

@@ -13,15 +13,20 @@ public interface SeatMapper {
     @Mapping(target = "bus", source = "busId", qualifiedByName = "mapBus")
     Seat toEntity(SeatCreateRequest dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "number", ignore = true)
+    @Mapping(target = "bus", ignore = true)
     @Mapping(target = "type", source = "type")
     void updateEntity(SeatUpdateRequest dto, @MappingTarget Seat seat);
 
-
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "number", source = "number")
+    @Mapping(target = "type", source = "type")
     @Mapping(target = "busId", source = "bus.id")
     @Mapping(target = "busPlate", source = "bus.plate")
     @Mapping(target = "busCapacity", source = "bus.capacity")
-    @Mapping(target = "type", source = "type")
     SeatResponse toResponse(Seat entity);
+
     @Named("mapBus")
     default Bus mapBus(Long id) {
         if (id == null) return null;

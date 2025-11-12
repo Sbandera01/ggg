@@ -1,6 +1,7 @@
 package com.bers.api.dtos;
 
 import jakarta.validation.constraints.*;
+import org.springframework.cglib.core.Local;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,7 +17,8 @@ public class ConfigDtos {
     public record ConfigUpdateRequest(
             @NotBlank(message = "value is required")
             String value,
-            String description
+            String description,
+            LocalDateTime updatedAt
     ) implements Serializable {}
 
     public record ConfigResponse(

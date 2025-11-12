@@ -8,18 +8,24 @@ import org.mapstruct.*;
 public interface AssignmentMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "checklistOk", constant = "false")
+    @Mapping(target = "assignedAt", ignore = true)
     @Mapping(target = "trip", source = "tripId", qualifiedByName = "mapTrip")
     @Mapping(target = "driver", source = "driverId", qualifiedByName = "mapUser")
     @Mapping(target = "dispatcher", source = "dispatcherId", qualifiedByName = "mapUser")
-    @Mapping(target = "checklistOk", constant = "false")
-    @Mapping(target = "assignedAt", ignore = true)
     Assignment toEntity(AssignmentCreateRequest dto);
 
-
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "assignedAt", ignore = true)
+    @Mapping(target = "trip", ignore = true)
+    @Mapping(target = "driver", ignore = true)
+    @Mapping(target = "dispatcher", ignore = true)
     @Mapping(target = "checklistOk", source = "checklistOk")
     void updateEntity(AssignmentUpdateRequest dto, @MappingTarget Assignment entity);
 
-
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "checklistOk", source = "checklistOk")
+    @Mapping(target = "assignedAt", source = "assignedAt")
     @Mapping(target = "tripId", source = "trip.id")
     @Mapping(target = "tripInfo", source = "trip", qualifiedByName = "formatTripInfo")
     @Mapping(target = "tripStatus", source = "trip.status")
@@ -50,12 +56,13 @@ public interface AssignmentMapper {
 
     @Named("formatTripInfo")
     default String formatTripInfo(Trip trip) {
-        if (trip == null) return null;
+        if (trip == null || trip.getRoute() == null) return null;
         return trip.getRoute().getOrigin() + " → " +
                 trip.getRoute().getDestination() + " - " +
                 trip.getDate() + " " +
                 trip.getDepartureAt().toLocalTime();
     }
+
     @Named("formatRouteInfo")
     default String formatRouteInfo(Route route) {
         if (route == null) return null;

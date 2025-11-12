@@ -15,11 +15,18 @@ public interface BusMapper {
     @Mapping(target = "seats", ignore = true)
     Bus toEntity(BusCreateRequest dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "plate", ignore = true)
+    @Mapping(target = "seats", ignore = true)
     @Mapping(target = "capacity", source = "capacity")
     @Mapping(target = "amenities", source = "amenities")
     @Mapping(target = "status", source = "status")
     void updateEntity(BusUpdateRequest dto, @MappingTarget Bus bus);
 
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "plate", source = "plate")
+    @Mapping(target = "capacity", source = "capacity")
+    @Mapping(target = "amenities", source = "amenities")
     @Mapping(target = "status", source = "status")
     BusResponse toResponse(Bus entity);
 
@@ -33,7 +40,7 @@ public interface BusMapper {
                 bus.getAmenities(),
                 bus.getStatus().name(),
                 bus.getSeats() != null ? bus.getSeats().size() : 0,
-                availableSeats
+                availableSeats != null ? availableSeats : 0
         );
     }
 }

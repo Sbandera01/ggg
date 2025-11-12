@@ -8,30 +8,38 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
-@Mapper(componentModel = "spring", uses = { TripMapper.class })
+@Mapper(componentModel = "spring")
 public interface SeatHoldMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "trip", source = "tripId", qualifiedByName = "mapTrip")
-    @Mapping(target = "user", ignore = true)
     @Mapping(target = "expiresAt", ignore = true)
     @Mapping(target = "status", expression = "java(com.bers.domain.entities.enums.HoldStatus.HOLD)")
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "seatNumber", source = "seatNumber")
+    @Mapping(target = "trip", source = "tripId", qualifiedByName = "mapTrip")
     SeatHold toEntity(SeatHoldCreateRequest dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "expiresAt", ignore = true)
+    @Mapping(target = "seatNumber", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "trip", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "status", source = "status")
     void updateEntity(SeatHoldUpdateRequest dto, @MappingTarget SeatHold entity);
 
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "seatNumber", source = "seatNumber")
+    @Mapping(target = "expiresAt", source = "expiresAt")
+    @Mapping(target = "status", source = "status")
+    @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "tripId", source = "trip.id")
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target = "tripDate", source = "trip.date", qualifiedByName = "formatDate")
     @Mapping(target = "tripTime", source = "trip.departureAt", qualifiedByName = "formatTime")
     @Mapping(target = "routeName", source = "trip.route.name")
     @Mapping(target = "minutesLeft", source = "expiresAt", qualifiedByName = "calculateMinutesLeft")
-    @Mapping(target = "status", source = "status")
-    @Mapping(target = "createdAt", source = "createdAt")
     SeatHoldResponse toResponse(SeatHold entity);
 
     @Named("formatDate")
@@ -50,6 +58,7 @@ public interface SeatHoldMapper {
         long minutes = Duration.between(LocalDateTime.now(), expiresAt).toMinutes();
         return minutes > 0 ? (int) minutes : 0;
     }
+
     @Named("mapTrip")
     default Trip mapTrip(Long id) {
         if (id == null) return null;

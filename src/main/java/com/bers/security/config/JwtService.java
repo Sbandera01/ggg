@@ -10,7 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,13 +24,13 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    @Value("${jwt.expiration}") // 24 horas
+    @Value("${jwt.expiration}")
     private long jwtExpiration;
 
-    @Value("${jwt.refresh-expiration}") // 7 días
+    @Value("${jwt.refresh-expiration}")
     private long refreshExpiration;
 
-    @Value("${jwt.issuer:busconnect-app}")
+    @Value("${jwt.issuer:bers-app}")
     private String issuer;
 
     public String extractUsername(String token) {
@@ -92,7 +92,6 @@ public class JwtService {
             claims.put("phone", customUser.getPhone());
             claims.put("type", "access");
 
-            // Incluir authorities granulares
             claims.put("authorities", customUser.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList()));
@@ -114,7 +113,6 @@ public class JwtService {
         return buildToken(claims, userDetails, refreshExpiration);
     }
 
-    // Token para operación offline
     public String generateOfflineToken(UserDetails userDetails, Long durationMs) {
         Map<String, Object> claims = new HashMap<>();
 
@@ -148,7 +146,6 @@ public class JwtService {
             final String username = extractUsername(token);
             final String tokenType = extractTokenType(token);
 
-            // Validar tipo de token
             if (!"access".equals(tokenType) && !"offline".equals(tokenType)) {
                 log.warn("Invalid token type: {}", tokenType);
                 return false;
@@ -183,7 +180,6 @@ public class JwtService {
         }
     }
 
-    // Validar token offline
     public boolean isOfflineTokenValid(String token, UserDetails userDetails) {
         try {
             String tokenType = extractTokenType(token);
@@ -288,7 +284,7 @@ public class JwtService {
         return null;
     }
 
-    private Key getSignInKey() {
+    private SecretKey getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }

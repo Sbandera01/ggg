@@ -8,16 +8,23 @@ import org.mapstruct.*;
 public interface ConfigMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "key", source = "key")
     @Mapping(target = "value", source = "value")
     @Mapping(target = "description", source = "description")
-    @Mapping(target = "updatedAt", ignore = true)
     Config toEntity(ConfigCreateRequest dto);
 
-
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "key", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "value", source = "value")
     @Mapping(target = "description", source = "description")
     void updateEntity(ConfigUpdateRequest dto, @MappingTarget Config config);
 
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "key", source = "key")
+    @Mapping(target = "value", source = "value")
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "updatedAt", source = "updatedAt")
     ConfigResponse toResponse(Config entity);
 }

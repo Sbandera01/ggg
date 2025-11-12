@@ -8,6 +8,7 @@ import org.mapstruct.*;
 public interface FareRuleMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "passengerDiscounts", ignore = true)
     @Mapping(target = "basePrice", source = "basePrice")
     @Mapping(target = "discounts", source = "discounts")
     @Mapping(target = "dynamicPricing", source = "dynamicPricing")
@@ -16,18 +17,25 @@ public interface FareRuleMapper {
     @Mapping(target = "toStop", source = "toStopId", qualifiedByName = "mapStop")
     FareRule toEntity(FareRuleCreateRequest dto);
 
-
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "passengerDiscounts", ignore = true)
+    @Mapping(target = "route", ignore = true)
+    @Mapping(target = "fromStop", ignore = true)
+    @Mapping(target = "toStop", ignore = true)
     @Mapping(target = "basePrice", source = "basePrice")
     @Mapping(target = "discounts", source = "discounts")
     @Mapping(target = "dynamicPricing", source = "dynamicPricing")
     void updateEntity(FareRuleUpdateRequest dto, @MappingTarget FareRule entity);
 
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "basePrice", source = "basePrice")
+    @Mapping(target = "discounts", source = "discounts")
+    @Mapping(target = "dynamicPricing", source = "dynamicPricing")
     @Mapping(target = "routeId", source = "route.id")
     @Mapping(target = "fromStopId", source = "fromStop.id")
     @Mapping(target = "toStopId", source = "toStop.id")
     @Mapping(target = "fromStopName", source = "fromStop.name")
     @Mapping(target = "toStopName", source = "toStop.name")
-    @Mapping(target = "dynamicPricing", source = "dynamicPricing")
     FareRuleResponse toResponse(FareRule entity);
 
     @Named("mapRoute")
@@ -37,6 +45,7 @@ public interface FareRuleMapper {
         r.setId(id);
         return r;
     }
+
     @Named("mapStop")
     default Stop mapStop(Long id) {
         if (id == null) return null;

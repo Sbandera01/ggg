@@ -57,7 +57,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     List<Ticket> findByTripIdAndSeatNumber(@Param("tripId") Long tripId,
                                            @Param("seatNumber") String seatNumber);
 
-    List<Trip> findByStatusAndDepartureAtBefore(TripStatus status, LocalDateTime dateTime);
+    List<Trip> findByStatusAndTrip_DepartureAtBefore(TripStatus status, LocalDateTime dateTime);
 
     @Query("SELECT t FROM Trip t WHERE t.status = :status " +
             "AND t.departureAt BETWEEN :start AND :end")

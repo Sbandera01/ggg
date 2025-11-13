@@ -25,10 +25,10 @@ public class OpenApiConfig {
                         addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes
                         ("Bearer Authentication", createAPIKeyScheme()))
-                .info(new Info().title("BusConnect API")
-                        .description("API REST para la gestión integral de rutas, viajes, usuarios y tickets de una empresa de autobuses.")
+                .info(new Info().title("BersApp API")
+                        .description("Gestión de rutas y encomiendas intermunicipales.")
                         .version("1.0")
-                        .contact(new Contact().name("Mauricio Otero M")
-                                .email("mauriciootero750@gmail.com")));
+                        .contact(new Contact().name("Sebastian B")
+                                .email("sebsbl03@gmail.com")));
     }
 }

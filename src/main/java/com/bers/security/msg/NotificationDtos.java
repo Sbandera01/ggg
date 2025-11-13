@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Profile;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

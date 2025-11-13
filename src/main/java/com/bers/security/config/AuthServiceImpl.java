@@ -64,6 +64,7 @@ public class AuthServiceImpl implements AuthService {
                 .role(assignedRole)
                 .status(UserStatus.ACTIVE)
                 .passwordHash(passwordEncoder.encode(request.password()))
+                .dateOfBirth(request.dateOfBirth())
                 .createAt(LocalDateTime.now())
                 .build();
 
@@ -76,10 +77,10 @@ public class AuthServiceImpl implements AuthService {
         String refreshToken = jwtService.generateRefreshToken(userDetails);
 
         //correo de bienvenida
-        notificationProducer.sendWelcomeEmail(
+        /*notificationProducer.sendWelcomeEmail(
                 user.getEmail(),
                 user.getUsername()
-        );
+        );*/
         return new AuthResponse(
                 accessToken,
                 refreshToken,
@@ -222,7 +223,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         UserDetails userDetails = new CustomUserDetails(user);
-        String offlineToken = jwtService.generateOfflineToken(userDetails, (long) OFFLINE_TOKEN_DURATION);
+        String offlineToken = jwtService.generateOfflineToken(userDetails, OFFLINE_TOKEN_DURATION);
 
         log.info("Offline token generated for user: {} [{}]", user.getEmail(), user.getRole());
 

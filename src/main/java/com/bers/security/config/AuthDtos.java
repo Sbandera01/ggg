@@ -1,9 +1,11 @@
 package com.bers.security.config;
 
 import com.bers.domain.entities.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * Contiene todos los DTOs relacionados con autenticación.
@@ -32,7 +34,12 @@ public class AuthDtos {
                     message = "Password must contain at least one letter and one number")
             String password,
 
-            UserRole role  // Hacer opcional, siempre será PASSENGER
+            UserRole role,  // Hacer opcional, siempre será PASSENGER
+
+       @JsonFormat(pattern = "dd-MM-yyyy")
+       @NotNull(message = "La fecha de nacimiento es obligatoria")
+        LocalDate dateOfBirth
+
     ) implements Serializable {}
 
     /**

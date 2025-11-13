@@ -22,7 +22,7 @@ public class EmailService {
     private final TemplateEngine templateEngine;
 
     /**
-     * Enviar correo con plantilla HTML
+      Enviar correo con plantilla HTML
      */
     public void sendEmail(EmailNotification notification) {
         try {
@@ -31,7 +31,7 @@ public class EmailService {
 
             helper.setTo(notification.getTo());
             helper.setSubject(notification.getSubject());
-            helper.setFrom("BusConnect <noreply@busconnect.com>");
+            helper.setFrom("BersApp <noreply@busconnect.com>");
 
             // Procesar plantilla Thymeleaf
             String htmlContent = processTemplate(
@@ -167,12 +167,12 @@ public class EmailService {
     }
 
     /**
-     * Enviar link de recuperación de contraseña
+      Enviar link de recuperación de contraseña
      */
     public void sendPasswordResetEmail(String to, String username, String resetLink) {
         EmailNotification notification = EmailNotification.builder()
                 .to(to)
-                .subject("Recuperación de Contraseña - BusConnect")
+                .subject("Recuperación de Contraseña - BersApp")
                 .templateName("password-reset")
                 .variables(Map.of(
                         "username", username,

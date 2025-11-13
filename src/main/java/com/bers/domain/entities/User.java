@@ -41,6 +41,7 @@ public class User {
 
      @Column(nullable = false, length = 255)
      private String passwordHash;
+
      @Column(name ="date_of_birth", nullable = false)
      private LocalDate dateOfBirth;
 

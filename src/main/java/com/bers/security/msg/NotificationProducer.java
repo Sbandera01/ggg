@@ -1,6 +1,8 @@
 package com.bers.security.msg;
 
-import com.bers.security.msg.NotificationDtos.*;
+import com.bers.security.msg.NotificationDtos.EmailNotification;
+import com.bers.security.msg.NotificationDtos.SmsNotification;
+import com.bers.security.msg.NotificationDtos.WhatsAppNotification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
